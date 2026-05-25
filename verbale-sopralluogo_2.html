@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Verbale di Sopralluogo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Georgia,serif;background:linear-gradient(135deg,#0f2240,#1a3a5c 60%,#0f2240);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px 40px;color:#e2e8f0}
+.hdr{text-align:center;margin-bottom:24px}
+.hdr-sup{font-size:11px;letter-spacing:4px;color:#7ab3d4;text-transform:uppercase;margin-bottom:6px}
+.hdr-h1{color:#fff;font-size:22px;font-weight:700;letter-spacing:1px}
+.hdr-sub{color:#a8c8e8;font-size:13px;margin-top:6px;min-height:20px}
+.wrap{width:100%;max-width:600px}
+.card{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:16px;padding:20px;margin-bottom:14px}
+.lbl{color:#7ab3d4;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;display:block}
+input,textarea{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:11px 14px;color:#fff;font-size:16px;font-family:Georgia,serif;outline:none;width:100%;-webkit-appearance:none}
+textarea{resize:vertical;min-height:130px;line-height:1.6}
+input::placeholder,textarea::placeholder{color:#4a6080}
+.row{display:flex;gap:10px;margin-top:12px}
+.bp{background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;border:none;border-radius:10px;padding:13px 20px;font-size:15px;font-weight:600;cursor:pointer;flex:1;font-family:Georgia,serif}
+.bs{background:rgba(255,255,255,0.09);color:#cbd5e1;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:13px 18px;font-size:15px;cursor:pointer;font-family:Georgia,serif}
+.bp:disabled{opacity:.5}
+.btn-voice{padding:13px 24px;border-radius:28px;border:none;cursor:pointer;font-size:15px;font-weight:600;color:#fff;display:inline-flex;align-items:center;gap:8px;font-family:Georgia,serif;min-width:130px;justify-content:center;-webkit-appearance:none}
+.btn-voice.off{background:linear-gradient(135deg,#16a34a,#15803d)}
+.btn-voice.on{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 0 18px rgba(239,68,68,0.35)}
+.rec-dot{color:#f87171;font-size:13px;margin-left:4px}
+.voice-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sez-box{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:10px;padding:12px 16px;margin-bottom:14px}
+.sez-titolo{color:#93c5fd;font-size:11px;letter-spacing:2px;margin-bottom:4px}
+.sez-domanda{color:#e2e8f0;font-size:15px;line-height:1.5}
+.prog-bar{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:18px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#7ab3d4);border-radius:2px;transition:width .4s}
+.row-meta{display:flex;justify-content:space-between;margin-bottom:6px}
+.cant-row{display:flex;gap:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.cant-k{color:#7ab3d4;font-size:12px;min-width:130px;padding-top:2px}
+.cant-v{color:#e2e8f0;font-size:14px}
+.cant-item{cursor:pointer;padding:10px 14px;border-radius:8px;margin-bottom:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)}
+.cant-item:active{background:rgba(255,255,255,0.12)}
+.cant-cod{color:#7ab3d4;font-family:monospace;font-size:13px}
+.cant-nome{color:#cbd5e1;font-size:13px;margin-left:10px}
+.riepilogo-sez{margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.07);padding-bottom:12px}
+.riepilogo-t{color:#93c5fd;font-size:11px;letter-spacing:1.5px;margin-bottom:4px}
+.riepilogo-v{color:#e2e8f0;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.muted{color:#64748b;font-size:12px;margin-top:8px}
+.centro{text-align:center;margin-top:8px}
+.step{display:none}
+.step.on{display:block}
+.err{color:#f87171;font-size:13px;margin-top:8px}
+
+/* FOTO */
+.foto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.foto-thumb{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)}
+.foto-thumb img{width:100%;height:100%;object-fit:cover}
+.foto-del{position:absolute;top:4px;right:4px;background:rgba(239,68,68,0.85);border:none;border-radius:50%;width:22px;height:22px;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.foto-caption{width:100%;background:rgba(0,0,0,0.5);border:none;border-top:1px solid rgba(255,255,255,0.1);padding:4px 6px;color:#e2e8f0;font-size:11px;font-family:Georgia,serif;outline:none;position:absolute;bottom:0;left:0}
+.foto-caption::placeholder{color:#64748b}
+.btn-foto-row{display:flex;gap:10px;margin-top:4px}
+.btn-foto{flex:1;padding:12px;border-radius:10px;border:1px dashed rgba(255,255,255,0.25);background:rgba(255,255,255,0.05);color:#a8c8e8;font-size:14px;cursor:pointer;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-foto:active{background:rgba(255,255,255,0.1)}
+.foto-count{color:#7ab3d4;font-size:12px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-sup">Direzione Lavori</div>
+  <h1 class="hdr-h1">Verbale di Sopralluogo</h1>
+  <div class="hdr-sub" id="hdr-sub"></div>
+</div>
+<div class="wrap">
+
+  <!-- HOME -->
+  <div id="s-home" class="step card">
+    <span class="lbl">Codice cantiere</span>
+    <div class="row">
+      <input id="inp-codice" type="text" placeholder="Es: C001" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+      <button class="bp" style="flex:0 0 auto;padding:13px 20px" onclick="confermaCantiere()">Entra</button>
+    </div>
+    <div class="err" id="err-codice"></div>
+    <div style="margin-top:18px;border-top:1px solid #2a4a6c;padding-top:14px">
+      <span class="lbl">Cantieri demo</span>
+      <div id="lista-demo"></div>
+    </div>
+  </div>
+
+  <!-- CANTIERE -->
+  <div id="s-cantiere" class="step card">
+    <span class="lbl">Dati cantiere</span>
+    <div id="cant-dati"></div>
+    <div class="muted" id="cant-meta"></div>
+    <div class="row">
+      <button class="bs" onclick="show('home')">← Cambia</button>
+      <button class="bp" onclick="inizia()">Inizia verbale →</button>
+    </div>
+  </div>
+
+  <!-- SEZIONI -->
+  <div id="s-sezioni" class="step card">
+    <div class="row-meta">
+      <span class="lbl" style="margin:0" id="sez-num"></span>
+      <span class="lbl" style="margin:0" id="sez-pct"></span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0"></div></div>
+    <div class="sez-box">
+      <div class="sez-titolo" id="sez-titolo"></div>
+      <div class="sez-domanda" id="sez-domanda"></div>
+    </div>
+    <div class="voice-row" id="voice-row">
+      <button class="btn-voice off" id="btn-voice" onclick="toggleVoice()">
+        <span id="v-icon">🎤</span><span id="v-label">Parla</span>
+      </button>
+      <span class="rec-dot" id="rec-dot" style="display:none">● REC</span>
+    </div>
+    <div class="err" id="voice-err" style="display:none"></div>
+    <textarea id="sez-testo" placeholder="Scrivi o usa il microfono…"></textarea>
+    <div class="row">
+      <button class="bs" onclick="torna()">← Indietro</button>
+      <button class="bp" id="btn-avanti" onclick="salvaEProsegui()">Avanti →</button>
+    </div>
+  </div>
+
+  <!-- FOTO -->
+  <div id="s-foto" class="step card">
+    <span class="lbl">📷 Foto sopralluogo</span>
+    <p style="color:#94a3b8;font-size:13px;margin-bottom:14px;line-height:1.5">Aggiungi foto scattate in cantiere. Puoi aggiungere una didascalia a ciascuna.</p>
+    <div class="btn-foto-row">
+      <label class="btn-foto">
+        📷 Scatta foto
+        <input type="file" accept="image/*" capture="environment" style="display:none" onchange="aggiungiPhoto(this)">
+      </label>
+      <label class="btn-foto">
+        🖼 Da libreria
+        <input type="file" accept="image/*" multiple style="display:none" onchange="aggiungiPhoto(this)">
+      </label>
+    </div>
+    <div class="foto-count" id="foto-count">Nessuna foto aggiunta</div>
+    <div class="foto-grid" id="foto-grid"></div>
+    <div class="row" style="margin-top:20px">
+      <button class="bs" onclick="tornaDaFoto()">← Indietro</button>
+      <button class="bp" onclick="concludiFoto()">Concludi verbale →</button>
+    </div>
+  </div>
+
+  <!-- ANTEPRIMA -->
+  <div id="s-anteprima" class="step">
+    <div class="card">
+      <span class="lbl">Riepilogo verbale</span>
+      <div id="riep"></div>
+      <div id="riep-foto" style="margin-top:12px"></div>
+      <div class="row">
+        <button class="bs" onclick="modificaUltima()">← Modifica</button>
+        <button class="bp" id="btn-pdf" onclick="scaricaPDF()">📄 Scarica PDF</button>
+      </div>
+    </div>
+    <div class="centro">
+      <button class="bs" style="font-size:13px" onclick="nuovoVerbale()">+ Nuovo verbale</button>
+    </div>
+  </div>
+
+</div>
+<script>
+const CANTIERI={
+  C001:{codice:"C001",opera:"Ristrutturazione Scuola Elementare G. Mazzini",committente:"Comune di Bergamo",rup:"Ing. Marco Ferretti",dl:"Ing. Andrea Rossi",assistenteDL:"Geom. Luca Bianchi",impresa:"Edilcostruzioni Srl",cup:"J48C22000120004",cig:"9234567890",importo:"€ 1.250.000,00",indirizzo:"Via Roma 14, Bergamo"},
+  C002:{codice:"C002",opera:"Manutenzione Straordinaria Palazzo Municipale",committente:"Comune di Brescia",rup:"Arch. Giovanna Neri",dl:"Ing. Andrea Rossi",assistenteDL:"Geom. Paolo Conti",impresa:"Restauri & Costruzioni SpA",cup:"K55D21000080001",cig:"8876543210",importo:"€ 780.000,00",indirizzo:"Piazza della Loggia 1, Brescia"},
+  C003:{codice:"C003",opera:"Nuovo Asilo Nido Comunale",committente:"Comune di Lecco",rup:"Ing. Stefano Marini",dl:"Ing. Andrea Rossi",assistenteDL:"Geom. Luca Bianchi",impresa:"Costruzioni Moderne Srl",cup:"H22A23000040002",cig:"7765432109",importo:"€ 2.100.000,00",indirizzo:"Via Manzoni 55, Lecco"},
+};
+const SEZIONI=[
+  {id:"presenti",titolo:"Presenti",domanda:"Chi è presente oggi in cantiere? (DL, assistente, impresa, subappaltatori)"},
+  {id:"meteo",titolo:"Meteo e stato cantiere",domanda:"Com'è il tempo? Descrivi condizioni meteo e stato generale del cantiere."},
+  {id:"lavorazioni",titolo:"Lavorazioni in corso",domanda:"Quali lavorazioni sono in corso o eseguite dall'ultimo sopralluogo?"},
+  {id:"verifiche",titolo:"Verifiche eseguite",domanda:"Quali verifiche tecniche hai eseguito oggi? (materiali, conformità, misure)"},
+  {id:"anomalie",titolo:"Anomalie e non conformità",domanda:"Hai rilevato anomalie o non conformità? Se nessuna, dillo esplicitamente."},
+  {id:"prescrizioni",titolo:"Prescrizioni impartite",domanda:"Quali prescrizioni hai dato all'impresa? Se nessuna, dillo."},
+  {id:"scadenze",titolo:"Scadenze e prossimo sopralluogo",domanda:"Scadenze imminenti? Quando è previsto il prossimo sopralluogo?"},
+  {id:"note",titolo:"Note aggiuntive",domanda:"Altre osservazioni o comunicazioni da aggiungere al verbale?"},
+];
+
+let S={
+  cantiere:null,idx:0,risposte:{},rec:null,recording:false,
+  foto:[], // [{dataUrl, caption}]
+  num:(Math.floor(Math.random()*900)+100)+"/"+new Date().getFullYear(),
+  data:new Date().toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"})
+};
+
+function show(id){
+  document.querySelectorAll(".step").forEach(e=>e.classList.remove("on"));
+  document.getElementById("s-"+id).classList.add("on");
+}
+
+window.onload=function(){
+  const el=document.getElementById("lista-demo");
+  Object.values(CANTIERI).forEach(c=>{
+    const d=document.createElement("div");
+    d.className="cant-item";
+    d.innerHTML=`<span class="cant-cod">${c.codice}</span><span class="cant-nome">${c.opera}</span>`;
+    d.onclick=()=>{document.getElementById("inp-codice").value=c.codice;confermaCantiere();};
+    el.appendChild(d);
+  });
+  document.getElementById("inp-codice").addEventListener("keydown",e=>{if(e.key==="Enter")confermaCantiere();});
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR) document.getElementById("voice-row").style.display="none";
+  show("home");
+};
+
+function confermaCantiere(cod){
+  const c=CANTIERI[(cod||document.getElementById("inp-codice").value).trim().toUpperCase()];
+  if(!c){document.getElementById("err-codice").textContent="Codice non trovato.";return;}
+  document.getElementById("err-codice").textContent="";
+  S.cantiere=c;
+  document.getElementById("hdr-sub").textContent=c.codice+" — "+c.opera;
+  const dd=document.getElementById("cant-dati");
+  dd.innerHTML=[["Opera",c.opera],["Committente",c.committente],["RUP",c.rup],["Direttore Lavori",c.dl],["Impresa",c.impresa],["CUP",c.cup],["CIG",c.cig]].map(([k,v])=>`<div class="cant-row"><span class="cant-k">${k}</span><span class="cant-v">${v}</span></div>`).join("");
+  document.getElementById("cant-meta").textContent="Data: "+S.data+" — N° "+S.num;
+  show("cantiere");
+}
+
+function inizia(){S.idx=0;S.risposte={};S.foto=[];renderSez();show("sezioni");}
+
+function renderSez(){
+  const i=S.idx,tot=SEZIONI.length,s=SEZIONI[i];
+  const pct=Math.round(i/tot*100);
+  document.getElementById("sez-num").textContent="SEZIONE "+(i+1)+" / "+tot;
+  document.getElementById("sez-pct").textContent=pct+"%";
+  document.getElementById("prog").style.width=pct+"%";
+  document.getElementById("sez-titolo").textContent=s.titolo.toUpperCase();
+  document.getElementById("sez-domanda").textContent=s.domanda;
+  document.getElementById("sez-testo").value=S.risposte[s.id]||"";
+  document.getElementById("btn-avanti").textContent=i<tot-1?"Avanti →":"Aggiungi foto →";
+  document.getElementById("voice-err").style.display="none";
+  stopVoice();
+}
+
+function salvaEProsegui(){
+  S.risposte[SEZIONI[S.idx].id]=document.getElementById("sez-testo").value.trim();
+  stopVoice();
+  if(S.idx<SEZIONI.length-1){S.idx++;renderSez();}
+  else{renderFotoGrid();show("foto");}
+}
+
+function torna(){
+  stopVoice();
+  if(S.idx===0){show("cantiere");return;}
+  S.idx--;renderSez();
+}
+
+// ── VOCE ──────────────────────────────────────────────────────────────────────
+function toggleVoice(){S.recording?stopVoice():startVoice();}
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  const rec=new SR();
+  rec.lang="it-IT";rec.continuous=true;rec.interimResults=false;
+  rec.onstart=function(){
+    S.recording=true;
+    document.getElementById("btn-voice").className="btn-voice on";
+    document.getElementById("v-icon").textContent="⏹";
+    document.getElementById("v-label").textContent="Interrompi";
+    document.getElementById("rec-dot").style.display="inline";
+    document.getElementById("voice-err").style.display="none";
+  };
+  rec.onresult=function(e){
+    let t="";
+    for(let i=e.resultIndex;i<e.results.length;i++)
+      if(e.results[i].isFinal)t+=e.results[i][0].transcript+" ";
+    if(t)document.getElementById("sez-testo").value+=t;
+  };
+  rec.onerror=function(e){
+    stopVoice();
+    const err=document.getElementById("voice-err");
+    err.textContent=e.error==="not-allowed"?"⚠ Microfono negato. Abilita nelle impostazioni Chrome.":"⚠ Errore microfono: "+e.error;
+    err.style.display="block";
+  };
+  rec.onend=function(){stopVoice();};
+  try{rec.start();S.rec=rec;}catch(e){
+    document.getElementById("voice-err").textContent="⚠ Impossibile avviare microfono.";
+    document.getElementById("voice-err").style.display="block";
+  }
+}
+function stopVoice(){
+  try{S.rec&&S.rec.stop();}catch(e){}
+  S.rec=null;S.recording=false;
+  document.getElementById("btn-voice").className="btn-voice off";
+  document.getElementById("v-icon").textContent="🎤";
+  document.getElementById("v-label").textContent="Parla";
+  document.getElementById("rec-dot").style.display="none";
+}
+
+// ── FOTO ──────────────────────────────────────────────────────────────────────
+function aggiungiPhoto(input){
+  const files=Array.from(input.files);
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      S.foto.push({dataUrl:e.target.result,caption:""});
+      renderFotoGrid();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value="";
+}
+
+function renderFotoGrid(){
+  const grid=document.getElementById("foto-grid");
+  const count=document.getElementById("foto-count");
+  grid.innerHTML="";
+  count.textContent=S.foto.length===0?"Nessuna foto aggiunta":S.foto.length+" foto aggiunta"+(S.foto.length>1?"e":"");
+  S.foto.forEach((f,i)=>{
+    const div=document.createElement("div");
+    div.className="foto-thumb";
+    div.innerHTML=`
+      <img src="${f.dataUrl}">
+      <button class="foto-del" onclick="eliminaFoto(${i})">×</button>
+      <input class="foto-caption" type="text" placeholder="Didascalia…" value="${f.caption}" oninput="S.foto[${i}].caption=this.value">
+    `;
+    grid.appendChild(div);
+  });
+}
+
+function eliminaFoto(i){
+  S.foto.splice(i,1);
+  renderFotoGrid();
+}
+
+function tornaDaFoto(){
+  S.idx=SEZIONI.length-1;
+  renderSez();
+  show("sezioni");
+}
+
+function concludiFoto(){
+  renderRiep();
+  show("anteprima");
+}
+
+// ── RIEPILOGO ─────────────────────────────────────────────────────────────────
+function renderRiep(){
+  document.getElementById("riep").innerHTML=SEZIONI.map(s=>`
+    <div class="riepilogo-sez">
+      <div class="riepilogo-t">${s.titolo.toUpperCase()}</div>
+      <div class="riepilogo-v">${S.risposte[s.id]||'<em style="color:#4a6080">Non compilato</em>'}</div>
+    </div>`).join("");
+  const rf=document.getElementById("riep-foto");
+  if(S.foto.length>0){
+    rf.innerHTML=`<div class="riepilogo-sez"><div class="riepilogo-t">FOTO (${S.foto.length})</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">`+
+      S.foto.map(f=>`<div style="position:relative"><img src="${f.dataUrl}" style="width:72px;height:72px;object-fit:cover;border-radius:6px">${f.caption?`<div style="font-size:10px;color:#94a3b8;margin-top:2px;max-width:72px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${f.caption}</div>`:""}</div>`).join("")+
+      "</div></div>";
+  } else rf.innerHTML="";
+}
+
+function modificaUltima(){S.idx=SEZIONI.length-1;renderSez();show("sezioni");}
+
+function nuovoVerbale(){
+  S.cantiere=null;S.risposte={};S.idx=0;S.foto=[];
+  S.num=(Math.floor(Math.random()*900)+100)+"/"+new Date().getFullYear();
+  S.data=new Date().toLocaleDateString("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
+  document.getElementById("inp-codice").value="";
+  document.getElementById("hdr-sub").textContent="";
+  show("home");
+}
+
+// ── PDF ───────────────────────────────────────────────────────────────────────
+async function scaricaPDF(){
+  const btn=document.getElementById("btn-pdf");
+  btn.disabled=true;btn.textContent="⏳ Generazione...";
+  try{
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    const c=S.cantiere,r=S.risposte,W=210,ml=15,cw=180;
+    let y=18;
+
+    // header
+    doc.setFillColor(26,58,92);doc.rect(0,0,W,30,"F");
+    doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(15);
+    doc.text("VERBALE DI SOPRALLUOGO",W/2,13,{align:"center"});
+    doc.setFont("helvetica","normal");doc.setFontSize(9);
+    doc.text("Direzione Lavori — D.Lgs. 36/2023",W/2,22,{align:"center"});
+    y=38;
+
+    // dati cantiere
+    doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(26,58,92);
+    doc.text("DATI DEL CANTIERE",ml,y);y+=5;
+    [["N° Verbale",S.num],["Data sopralluogo",S.data],["Opera",c.opera],["Committente",c.committente],["RUP",c.rup],["Direttore Lavori",c.dl],["Assistente DL",c.assistenteDL],["Impresa",c.impresa],["CUP",c.cup],["CIG",c.cig],["Importo",c.importo],["Luogo",c.indirizzo]].forEach(([k,v],i)=>{
+      doc.setFillColor(...(i%2===0?[245,247,250]:[255,255,255]));
+      doc.rect(ml,y-4,cw,6.5,"F");
+      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(60,80,110);
+      doc.text(k,ml+2,y);
+      doc.setFont("helvetica","normal");doc.setTextColor(30,30,30);
+      const w=doc.splitTextToSize(String(v||"—"),cw-60);
+      doc.text(w,ml+60,y);
+      y+=Math.max(6.5,w.length*4.5);
+    });
+    y+=8;
+
+    // sezioni
+    doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(26,58,92);
+    doc.text("CONTENUTO DEL SOPRALLUOGO",ml,y);y+=5;
+    SEZIONI.forEach((s,i)=>{
+      const txt=r[s.id]||"—";
+      const w=doc.splitTextToSize(txt,cw-4);
+      if(y+8+w.length*4.5>272){doc.addPage();y=18;}
+      doc.setFillColor(26,58,92);doc.rect(ml,y-4,cw,7,"F");
+      doc.setFont("helvetica","bold");doc.setFontSize(8);doc.setTextColor(255,255,255);
+      doc.text((i+1)+". "+s.titolo.toUpperCase(),ml+2,y);y+=5;
+      doc.setFillColor(...(i%2===0?[245,247,250]:[255,255,255]));
+      doc.rect(ml,y,cw,w.length*4.5+6,"F");
+      doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(30,30,30);
+      doc.text(w,ml+2,y+4.5);
+      y+=w.length*4.5+10;
+    });
+
+    // foto
+    if(S.foto.length>0){
+      if(y+20>272){doc.addPage();y=18;}
+      doc.setFont("helvetica","bold");doc.setFontSize(9);doc.setTextColor(26,58,92);
+      doc.text("DOCUMENTAZIONE FOTOGRAFICA",ml,y);y+=6;
+
+      const fotoPerRiga=3;
+      const fw=(cw-(fotoPerRiga-1)*4)/fotoPerRiga; // larghezza foto ~56mm
+      const fh=fw*0.75; // altezza foto (aspect 4:3)
+
+      for(let i=0;i<S.foto.length;i++){
+        const col=i%fotoPerRiga;
+        const x=ml+col*(fw+4);
+        if(col===0&&i>0)y+=fh+10;
+        if(y+fh+10>272){doc.addPage();y=18;}
+        try{
+          doc.addImage(S.foto[i].dataUrl,"JPEG",x,y,fw,fh);
+          if(S.foto[i].caption){
+            doc.setFont("helvetica","italic");doc.setFontSize(7);doc.setTextColor(80,80,80);
+            doc.text(S.foto[i].caption,x,y+fh+3,{maxWidth:fw});
+          }
+          // numero foto
+          doc.setFillColor(26,58,92,180);
+          doc.setFont("helvetica","bold");doc.setFontSize(7);doc.setTextColor(255,255,255);
+          doc.text("Foto "+(i+1),x+1,y+4);
+        }catch(e){
+          doc.setFillColor(220,220,220);doc.rect(x,y,fw,fh,"F");
+          doc.setFont("helvetica","normal");doc.setFontSize(8);doc.setTextColor(100,100,100);
+          doc.text("Foto "+(i+1),x+fw/2,y+fh/2,{align:"center"});
+        }
+      }
+      y+=fh+14;
+    }
+
+    // firme
+    if(y+36>272){doc.addPage();y=18;}
+    y+=10;
+    doc.setDrawColor(180,180,180);
+    doc.line(ml,y,ml+70,y);doc.line(W-15-70,y,W-15,y);
+    doc.setFont("helvetica","italic");doc.setFontSize(8);doc.setTextColor(80,80,80);
+    doc.text("Il Direttore dei Lavori\n"+c.dl,ml,y+5);
+    doc.text("Per l'Impresa\n"+c.impresa,W-15-70,y+5);
+
+    // footer
+    const pp=doc.getNumberOfPages();
+    for(let p=1;p<=pp;p++){
+      doc.setPage(p);
+      doc.setFillColor(240,244,248);doc.rect(0,286,W,11,"F");
+      doc.setFont("helvetica","normal");doc.setFontSize(7);doc.setTextColor(120,120,120);
+      doc.text("Verbale n° "+S.num+" — "+c.opera,ml,293);
+      doc.text("Pag. "+p+" / "+pp,W-15,293,{align:"right"});
+    }
+
+    doc.save("verbale_"+c.codice+"_"+S.data.replace(/\//g,"-")+".pdf");
+  }catch(e){alert("Errore PDF: "+e.message);}
+  btn.disabled=false;btn.textContent="📄 Scarica PDF";
+}
+</script>
+</body>
+</html>
