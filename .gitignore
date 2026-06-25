@@ -1,0 +1,8 @@
+node_modules/
+client/node_modules/
+server/node_modules/
+server/clientflow.db
+server/clientflow.db-shm
+server/clientflow.db-wal
+client/dist/
+*.log
