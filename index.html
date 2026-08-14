@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>eredo — La tua successione, tutta in un unico posto</title>
 <meta name="description" content="Un esperto dedicato ti segue dall'inizio alla fine della tua dichiarazione di successione. Sai sempre cosa fare, quali documenti servono e a che punto sei.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cpath d='M15,25 V0 H29 V15 H43 V0 H57 V15 H71 V0 H85 V25 V60 A35,35 0 0 1 15,60 Z' fill='%235A4394'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="images/eredo-pittogramma.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -53,33 +53,14 @@
 
   /* ---------- NAV / LOGO ---------- */
   .nav{
-    padding:26px 0 10px;
+    padding:34px 0 18px;
     display:flex;
     justify-content:center;
   }
-  .logo-wordmark{
-    display:inline-flex;
-    align-items:baseline;
-    font-family:'Poppins',sans-serif;
-    font-weight:800;
-    font-size:clamp(24px,3vw,30px);
-    letter-spacing:-0.01em;
-    color:var(--purple-dark);
-    user-select:none;
-  }
-  .logo-wordmark .crowned{
-    position:relative;
-  }
-  .logo-wordmark .crowned::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:-0.34em;
-    transform:translateX(-50%);
-    width:0.66em;
-    height:0.26em;
-    background:currentColor;
-    clip-path: polygon(0% 100%, 0% 0%, 20% 0%, 20% 45%, 40% 45%, 40% 0%, 60% 0%, 60% 45%, 80% 45%, 80% 0%, 100% 0%, 100% 100%);
+  .logo-img{
+    display:block;
+    height:28px;
+    width:auto;
   }
 
   /* ---------- HERO ---------- */
@@ -137,20 +118,28 @@
     filter:brightness(1.03);
   }
   .btn-cta:active{ transform:translateY(0); }
-  .link-secondary{
+  .btn-cta--sm{
+    padding:13px 24px;
+    font-size:12px;
+    border-radius:11px;
+    box-shadow:0 10px 18px -10px rgba(34,130,63,0.55);
+  }
+  .cta-caption{
+    display:block;
     color:var(--purple);
     font-weight:600;
     font-size:15px;
     padding-left:2px;
-    position:relative;
   }
-  .link-secondary::after{
-    content:"";
-    position:absolute;
-    left:2px; right:0; bottom:-3px;
-    height:1px;
-    background:currentColor;
-    opacity:.4;
+  .cta-row .cta-caption{
+    padding-left:2px;
+  }
+  .step .cta-row{
+    margin-top:20px;
+    gap:10px;
+  }
+  .step .cta-caption{
+    font-size:13px;
   }
 
   .hero-visual{
@@ -301,7 +290,7 @@
     gap:10px;
     text-align:center;
   }
-  footer .logo-wordmark{ font-size:20px; }
+  footer .logo-img{ height:20px; }
   footer small{
     color:var(--gray);
     font-size:12.5px;
@@ -345,8 +334,8 @@
 <body>
 
   <header class="nav">
-    <a href="#" aria-label="eredo — home" class="logo-wordmark">
-      <span>er</span><span class="crowned">e</span><span>do</span>
+    <a href="#" aria-label="eredo — home">
+      <img src="images/eredo-logo.svg" alt="eredo" class="logo-img">
     </a>
   </header>
 
@@ -366,7 +355,7 @@
           </p>
           <div class="cta-row">
             <a href="#" id="cta-button" class="btn-cta">Scopri perché iniziare</a>
-            <a href="#steps" class="link-secondary">Partiamo dalla tua situazione.</a>
+            <span class="cta-caption">Partiamo dalla tua situazione.</span>
           </div>
         </div>
 
@@ -384,6 +373,10 @@
           <div>
             <div class="step-title">Partiamo dalla tua situazione</div>
             <p class="step-text">Analizziamo ciò che hai e capiamo cosa serve.</p>
+            <div class="cta-row">
+              <a href="#" id="cta-button-step" class="btn-cta btn-cta--sm">Scopri perché iniziare</a>
+              <span class="cta-caption">Partiamo dalla tua situazione.</span>
+            </div>
           </div>
         </div>
         <div class="step">
@@ -452,7 +445,7 @@
 
   <footer>
     <div class="container">
-      <a href="#" class="logo-wordmark" style="color:var(--purple-dark)"><span>er</span><span class="crowned">e</span><span>do</span></a>
+      <a href="#"><img src="images/eredo-logo.svg" alt="eredo" class="logo-img"></a>
       <small>&copy; <span id="year"></span> eredo. Tutti i diritti riservati.</small>
     </div>
   </footer>
