@@ -156,7 +156,7 @@
   .hero-visual{
     position:relative;
   }
-  .hero-visual svg{ width:100%; height:auto; }
+  .hero-visual img{ width:100%; height:auto; }
 
   /* ---------- STEPS ---------- */
   .steps{
@@ -224,43 +224,13 @@
     position:relative;
     border-radius:var(--radius-lg);
     overflow:hidden;
-    aspect-ratio:4/5;
-    background:
-      radial-gradient(120% 140% at 20% 0%, rgba(255,255,255,0.14), transparent 55%),
-      linear-gradient(150deg,var(--purple) 0%, var(--purple-dark) 70%);
+    aspect-ratio:679/614;
     box-shadow:var(--shadow);
   }
-  .expert-photo svg{
-    position:absolute;
-    bottom:-6%;
-    left:50%;
-    transform:translateX(-50%);
-    width:72%;
-    opacity:0.92;
-  }
-  .expert-photo .ring{
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
-  }
-  .expert-badge{
-    position:absolute;
-    left:20px; bottom:20px;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:rgba(255,255,255,0.16);
-    backdrop-filter:blur(6px);
-    color:#fff;
-    padding:9px 14px;
-    border-radius:999px;
-    font-size:12.5px;
-    font-weight:600;
-    letter-spacing:0.02em;
-  }
-  .expert-badge .dot{
-    width:7px;height:7px;border-radius:50%;background:var(--gold);
+  .expert-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
 
   .expert-eyebrow{
@@ -360,7 +330,7 @@
       grid-template-columns:1fr;
       gap:32px;
     }
-    .expert-photo{ max-width:340px; margin:0 auto; aspect-ratio:1/1; }
+    .expert-photo{ max-width:400px; margin:0 auto; }
   }
 
   @media (max-width: 480px){
@@ -400,53 +370,8 @@
           </div>
         </div>
 
-        <div class="hero-visual" aria-hidden="true">
-          <svg viewBox="0 0 720 620" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- confused branch paths -->
-            <g stroke="#C7C2D6" stroke-width="9" stroke-linecap="round" fill="none">
-              <path d="M300,430 C270,400 250,360 260,320"/>
-              <path d="M260,320 C240,290 210,270 175,262"/>
-              <path d="M260,320 C275,285 270,250 300,220"/>
-              <path d="M370,340 C400,315 405,280 385,245"/>
-              <path d="M385,245 C400,215 435,200 470,205"/>
-              <path d="M430,270 C465,255 505,258 535,280"/>
-              <path d="M535,280 C570,300 615,300 650,275"/>
-              <path d="M430,270 C450,240 450,205 430,175"/>
-            </g>
-            <g fill="#FFFFFF" stroke="#C7C2D6" stroke-width="7">
-              <circle cx="175" cy="262" r="8"/>
-              <circle cx="300" cy="220" r="8"/>
-              <circle cx="470" cy="205" r="8"/>
-              <circle cx="430" cy="175" r="8"/>
-            </g>
-
-            <!-- dead end branch -->
-            <path d="M535,280 C595,265 630,225 645,190" stroke="#C7C2D6" stroke-width="9" stroke-linecap="round" fill="none"/>
-            <circle cx="655" cy="172" r="21" fill="#EDEAF3" stroke="#B9B3CC" stroke-width="2.5"/>
-            <g stroke="#8B8598" stroke-width="4.5" stroke-linecap="round">
-              <path d="M647,164 L663,180"/>
-              <path d="M663,164 L647,180"/>
-            </g>
-
-            <!-- main guided road -->
-            <path d="M108,560 C150,545 175,505 200,470 C230,430 255,395 300,360 C345,325 380,350 420,320 C465,287 470,240 510,205 C550,170 585,145 610,110"
-                  stroke="var(--purple)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M108,560 C150,545 175,505 200,470 C230,430 255,395 300,360 C345,325 380,350 420,320 C465,287 470,240 510,205 C550,170 585,145 610,110"
-                  stroke="#FFFFFF" stroke-opacity="0.75" stroke-width="3.4" stroke-dasharray="3 13" stroke-linecap="round" fill="none"/>
-
-            <!-- origin marker -->
-            <circle cx="108" cy="560" r="30" fill="#EDEAF3"/>
-            <circle cx="108" cy="560" r="17" fill="var(--purple-dark)"/>
-
-            <!-- arrow tip -->
-            <path d="M610,110 L646,72 L604,66 Z" fill="var(--purple)"/>
-
-            <!-- crown badge -->
-            <circle cx="638" cy="58" r="46" fill="#EFD9A6" opacity="0.5"/>
-            <circle cx="638" cy="58" r="34" fill="var(--gold)"/>
-            <path d="M620,64 L624,46 L634,58 L638,42 L642,58 L652,46 L656,64 Z" fill="#FFFFFF"/>
-            <rect x="619" y="64" width="38" height="6" rx="2" fill="#FFFFFF"/>
-          </svg>
+        <div class="hero-visual">
+          <img src="images/percorso-eredo.jpg" width="681" height="514" alt="Illustrazione: tanti percorsi confusi diventano un'unica strada guidata verso il tuo obiettivo" loading="eager">
         </div>
       </div>
     </section>
@@ -482,13 +407,7 @@
     <section class="expert">
       <div class="container">
         <div class="expert-photo">
-          <div class="ring"></div>
-          <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="100" cy="150" rx="72" ry="80" fill="#FFFFFF" opacity="0.10"/>
-            <circle cx="100" cy="92" r="42" fill="#FFFFFF" opacity="0.92"/>
-            <path d="M28,220 C28,165 58,132 100,132 C142,132 172,165 172,220 Z" fill="#FFFFFF" opacity="0.92"/>
-          </svg>
-          <span class="expert-badge"><span class="dot"></span>Il tuo esperto eredo</span>
+          <img src="images/esperto-eredo.jpg" width="679" height="614" alt="Il tuo esperto eredo, con te dall'inizio alla fine" loading="lazy">
         </div>
 
         <div class="expert-content">
