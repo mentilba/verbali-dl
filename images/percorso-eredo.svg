@@ -1,0 +1,101 @@
+<svg viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="arrowFade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C9C2DC" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#5A4394" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#39285C" flood-opacity="0.16"/>
+    </filter>
+    <filter id="softShadowSm" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#39285C" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- connecting arrows: left icons into center -->
+  <g fill="none" stroke="url(#arrowFade)" stroke-width="4" stroke-linecap="round">
+    <path d="M158,86 C270,86 300.6,230 355,232"/>
+    <path d="M158,246 C258.8,246 286.3,275 335,277"/>
+    <path d="M158,406 C258.8,406 286.3,365 335,363"/>
+    <path d="M158,566 C270,566 300.6,410 355,408"/>
+  </g>
+  <g fill="#8B7FA8">
+    <circle cx="158" cy="86" r="5"/>
+    <circle cx="158" cy="246" r="5"/>
+    <circle cx="158" cy="406" r="5"/>
+    <circle cx="158" cy="566" r="5"/>
+  </g>
+  <g fill="#5A4394">
+    <path d="M353,224 L370,232 L353,240 Z"/>
+    <path d="M333,269 L350,277 L333,285 Z"/>
+    <path d="M333,355 L350,363 L333,371 Z"/>
+    <path d="M353,400 L370,408 L353,416 Z"/>
+  </g>
+
+  <!-- connecting arrow: center to family -->
+  <path d="M 665,320 C 710,320 740,320 778,320" fill="none" stroke="#5A4394" stroke-opacity="0.75" stroke-width="4" stroke-linecap="round"/>
+  <path d="M778,311 L796,320 L778,329 Z" fill="#5A4394"/>
+
+  <!-- left icon badges -->
+  <g>
+    <!-- casa -->
+    <g transform="translate(110,86)">
+      <circle r="48" fill="#EDEAF3" filter="url(#softShadowSm)"/>
+      <g transform="translate(-16,-15)" fill="none" stroke="#5A4394" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M0,15 L16,2 L32,15"/>
+        <path d="M4,12 V30 H28 V12"/>
+        <path d="M13,30 V20 H19 V30"/>
+      </g>
+    </g>
+    <!-- documento -->
+    <g transform="translate(110,246)">
+      <circle r="48" fill="#EDEAF3" filter="url(#softShadowSm)"/>
+      <g transform="translate(-11,-16)" fill="none" stroke="#5A4394" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="0" y="0" width="22" height="32" rx="3"/>
+        <path d="M6,10 H16 M6,16 H16 M6,22 H12"/>
+      </g>
+    </g>
+    <!-- denaro -->
+    <g transform="translate(110,406)">
+      <circle r="48" fill="#EDEAF3" filter="url(#softShadowSm)"/>
+      <g transform="translate(0,0)" fill="none" stroke="#5A4394" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="0" cy="0" r="16"/>
+        <path d="M6,-7 C-1,-11 -9,-6 -9,0 C-9,6 -1,11 6,7"/>
+        <path d="M-11,-3 H4 M-11,3 H2"/>
+      </g>
+    </g>
+    <!-- terreno -->
+    <g transform="translate(110,566)">
+      <circle r="48" fill="#EDEAF3" filter="url(#softShadowSm)"/>
+      <g transform="translate(-16,-16)" fill="none" stroke="#5A4394" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="1" width="30" height="30" rx="3"/>
+        <path d="M16,1 V31 M1,16 H31"/>
+        <circle cx="8.5" cy="8.5" r="3" fill="#5A4394" stroke="none"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- central circle with pittogramma -->
+  <circle cx="500" cy="320" r="165" fill="#FFFFFF" filter="url(#softShadow)"/>
+  <circle cx="500" cy="320" r="165" fill="none" stroke="#EDEAF3" stroke-width="2"/>
+  <g transform="translate(-1052.44,-778.08) scale(2.6089)">
+    <path fill-rule="nonzero" fill="#D4930E" fill-opacity="1" d="M 597.863281 387.925781 L 597.863281 392.578125 L 609.328125 392.578125 L 609.328125 383.6875 L 617.34375 383.6875 L 617.34375 401.472656 L 572.757812 401.472656 L 572.757812 385.101562 L 580.652344 385.101562 L 580.652344 392.578125 L 590.121094 392.578125 L 590.121094 387.925781 Z M 597.863281 387.925781 "/>
+    <path fill-rule="nonzero" fill="#39285C" fill-opacity="1" d="M 604.660156 428.320312 L 585.445312 428.320312 L 585.445312 418.480469 L 604.660156 418.480469 Z M 572.757812 410.367188 L 572.757812 433.175781 L 572.765625 433.175781 C 572.765625 433.285156 572.757812 433.386719 572.757812 433.5 C 572.757812 442.1875 575.042969 448.457031 579.617188 452.3125 C 584.191406 456.167969 589.46875 458.09375 595.453125 458.09375 C 602.703125 458.09375 608.339844 455.808594 612.367188 451.234375 C 614.957031 448.359375 616.410156 445.523438 616.726562 442.734375 L 604.167969 442.734375 C 603.507812 444.113281 602.746094 445.191406 601.882812 445.96875 C 600.300781 447.40625 598.242188 448.125 595.710938 448.125 C 593.324219 448.125 591.28125 447.539062 589.585938 446.355469 C 586.792969 444.460938 585.3125 441.152344 585.140625 436.433594 L 617.34375 436.433594 L 617.34375 410.367188 Z M 572.757812 410.367188 "/>
+  </g>
+
+  <!-- family group -->
+  <g>
+    <g transform="translate(796,332)" fill="#8B7FA8">
+      <circle cx="0" cy="-12" r="12"/>
+      <path d="M-15,28 C-15,7 -8,-2 0,-2 C8,-2 15,7 15,28 Z"/>
+    </g>
+    <g transform="translate(864,332)" fill="#8B7FA8">
+      <circle cx="0" cy="-12" r="12"/>
+      <path d="M-15,28 C-15,7 -8,-2 0,-2 C8,-2 15,7 15,28 Z"/>
+    </g>
+    <g transform="translate(830,326)" fill="#5A4394">
+      <circle cx="0" cy="-16" r="15"/>
+      <path d="M-19,34 C-19,9 -10,-3 0,-3 C10,-3 19,9 19,34 Z"/>
+    </g>
+  </g>
+</svg>
