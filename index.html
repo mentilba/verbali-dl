@@ -13,6 +13,7 @@
   :root{
     --purple:#5A4394;
     --purple-dark:#39285C;
+    --purple-night:#251A40;
     --gold:#D4930E;
     --bronze:#946B43;
     --ink:#1D1D1B;
@@ -149,7 +150,10 @@
 
   /* ---------- PROBLEM ---------- */
   .problem{
-    padding:76px 0;
+    padding:80px 0;
+    background:var(--bg-alt);
+    border-top:1px solid var(--gray-line);
+    border-bottom:1px solid var(--gray-line);
   }
   .problem .container{
     display:grid;
@@ -200,6 +204,23 @@
   }
   .problem-card .card-lines span:last-child{ width:62%; margin-bottom:0; }
 
+  .problem-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--purple);
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .problem-eyebrow .icon-badge{
+    width:30px;height:30px;
+    border-radius:50%;
+    border:1.5px solid var(--purple);
+    display:flex;align-items:center;justify-content:center;
+  }
   .problem-content h2{
     font-size:clamp(28px,3.6vw,40px);
     font-weight:800;
@@ -368,6 +389,122 @@
     display:flex;align-items:center;justify-content:center;
   }
 
+  /* ---------- MOMENT (dark) ---------- */
+  .moment{
+    background:var(--purple-night);
+    padding:96px 0;
+  }
+  .moment .container{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .moment h2{
+    color:#fff;
+    font-size:clamp(30px,4vw,46px);
+    font-weight:800;
+    line-height:1.14;
+  }
+  .moment-copy p{
+    color:rgba(255,255,255,0.72);
+    font-size:16.5px;
+    line-height:1.75;
+  }
+  .moment-copy p + p{ margin-top:22px; }
+
+  /* ---------- COMPARE ---------- */
+  .compare{
+    padding:96px 0;
+  }
+  .compare h2{
+    text-align:center;
+    font-size:clamp(28px,3.6vw,38px);
+    font-weight:800;
+    color:var(--purple-dark);
+    line-height:1.22;
+    max-width:840px;
+    margin:0 auto;
+  }
+  .compare-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    margin-top:56px;
+  }
+  .compare-card{
+    border-radius:var(--radius-lg);
+    padding:40px 36px;
+  }
+  .compare-card.neg{
+    background:#fff;
+    box-shadow:var(--shadow);
+  }
+  .compare-card.pos{
+    background:var(--purple-night);
+    color:#fff;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .compare-card.pos .decor{
+    position:absolute;
+    right:-60px; bottom:-60px;
+    width:220px; height:220px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .compare-card.pos .decor::before{
+    content:"";
+    position:absolute;
+    inset:30px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .compare-card .head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+    position:relative;
+  }
+  .compare-card .badge{
+    flex:none;
+    width:36px;height:36px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .compare-card.neg .badge{ background:#F7E2E0; color:#C0392B; }
+  .compare-card.pos .badge{ background:rgba(255,255,255,0.12); color:var(--gold); }
+  .compare-card .head h3{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:19px;
+  }
+  .compare-list{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    position:relative;
+  }
+  .compare-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .compare-card.neg .compare-list li{ color:var(--ink); }
+  .compare-card.pos .compare-list li{ color:rgba(255,255,255,0.9); }
+  .compare-list .mark{
+    flex:none;
+    width:18px;
+    font-weight:700;
+    line-height:1.55;
+  }
+  .neg-mark{ color:#C0392B; }
+  .pos-mark{ color:var(--gold); }
+
   /* ---------- FOOTER ---------- */
   footer{
     padding:34px 0 44px;
@@ -426,6 +563,15 @@
       gap:32px;
     }
     .expert-photo{ max-width:400px; margin:0 auto; }
+
+    .moment .container{
+      grid-template-columns:1fr;
+      gap:28px;
+    }
+
+    .compare-grid{
+      grid-template-columns:1fr;
+    }
   }
 
   @media (max-width: 480px){
@@ -434,6 +580,9 @@
     .btn-cta{ width:100%; padding:17px 22px; }
     .cta-row{ width:100%; }
     .expert-features{ gap:18px 24px; }
+    .moment{ padding:64px 0; }
+    .compare{ padding:64px 0; }
+    .compare-card{ padding:32px 26px; }
   }
 </style>
 </head>
@@ -467,51 +616,6 @@
 
         <div class="hero-visual">
           <img src="images/papiro.png" alt="I tuoi beni (casa, documenti, denaro, terreni) confluiscono in eredo, che li mette a disposizione dei tuoi eredi" loading="eager">
-        </div>
-      </div>
-    </section>
-
-    <!-- PROBLEM -->
-    <section class="problem">
-      <div class="container">
-        <div class="problem-visual" aria-hidden="true">
-          <div class="problem-card problem-card--1">
-            <span class="tag">Email</span>
-            <p class="card-text">Un documento è in una cartella.</p>
-            <div class="card-lines"><span></span><span></span></div>
-          </div>
-          <div class="problem-card problem-card--2">
-            <span class="tag">Telefonata</span>
-            <p class="card-text">Un dato lo conosce un altro erede.</p>
-            <div class="card-lines"><span></span><span></span></div>
-          </div>
-          <div class="problem-card problem-card--3">
-            <span class="tag">Cartella</span>
-            <p class="card-text">Un dubbio resta aperto per giorni.</p>
-            <div class="card-lines"><span></span><span></span></div>
-          </div>
-        </div>
-
-        <div class="problem-content">
-          <h2>Smetti di saltare da un ufficio all'altro. Parti da un unico punto.</h2>
-          <p class="lead">
-            Molte successioni si complicano prima ancora di iniziare, quando non si
-            imbocca da subito la strada giusta.
-          </p>
-          <div class="problem-list">
-            <div class="problem-list-item">
-              <span class="num">01</span>
-              <span class="txt">Non sai ancora da dove partire.</span>
-            </div>
-            <div class="problem-list-item">
-              <span class="num">02</span>
-              <span class="txt">Non sai quali documenti servono.</span>
-            </div>
-            <div class="problem-list-item">
-              <span class="num">03</span>
-              <span class="txt">Non sai quanto costerà e cosa succederà dopo.</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -587,6 +691,110 @@
               </span>
               Sempre con te.
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="problem">
+      <div class="container">
+        <div class="problem-visual" aria-hidden="true">
+          <div class="problem-card problem-card--1">
+            <span class="tag">Email</span>
+            <p class="card-text">Un documento è in una cartella.</p>
+            <div class="card-lines"><span></span><span></span></div>
+          </div>
+          <div class="problem-card problem-card--2">
+            <span class="tag">Telefonata</span>
+            <p class="card-text">Un dato lo conosce un altro erede.</p>
+            <div class="card-lines"><span></span><span></span></div>
+          </div>
+          <div class="problem-card problem-card--3">
+            <span class="tag">Cartella</span>
+            <p class="card-text">Un dubbio resta aperto per giorni.</p>
+            <div class="card-lines"><span></span><span></span></div>
+          </div>
+        </div>
+
+        <div class="problem-content">
+          <div class="problem-eyebrow">
+            <span class="icon-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12,2 C7,2 3,6 3,11 C3,17 12,22 12,22 C12,22 21,17 21,11 C21,6 17,2 12,2 Z"/><circle cx="12" cy="11" r="3"/></svg>
+            </span>
+            Un unico punto
+          </div>
+          <h2>Smetti di saltare da un ufficio all'altro. Parti da un unico punto.</h2>
+          <p class="lead">
+            Molte successioni si complicano prima ancora di iniziare, quando non si
+            imbocca da subito la strada giusta.
+          </p>
+          <div class="problem-list">
+            <div class="problem-list-item">
+              <span class="num">01</span>
+              <span class="txt">Non sai ancora da dove partire.</span>
+            </div>
+            <div class="problem-list-item">
+              <span class="num">02</span>
+              <span class="txt">Non sai quali documenti servono.</span>
+            </div>
+            <div class="problem-list-item">
+              <span class="num">03</span>
+              <span class="txt">Non sai quanto costerà e cosa succederà dopo.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOMENT -->
+    <section class="moment">
+      <div class="container">
+        <h2>Una successione non arriva mai in un momento qualunque…</h2>
+        <div class="moment-copy">
+          <p>Per questo non dovresti rincorrere documenti, uffici e risposte proprio quando avresti bisogno di sapere con chiarezza cosa fare.</p>
+          <p>Erēdo nasce per accompagnarti in questo passaggio e raccogliere la tua eredità tutta in un unico posto.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="compare">
+      <div class="container">
+        <h2>La differenza tra inseguire tutto e avere finalmente un unico esperto di riferimento.</h2>
+
+        <div class="compare-grid">
+          <div class="compare-card neg">
+            <div class="head">
+              <span class="badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6,6 L18,18 M18,6 L6,18"/></svg>
+              </span>
+              <h3>Senza Erēdo</h3>
+            </div>
+            <ul class="compare-list">
+              <li><span class="mark neg-mark">✕</span>Devi capire da solo cosa fare.</li>
+              <li><span class="mark neg-mark">✕</span>Documenti e informazioni restano sparsi tra email, telefonate e messaggi.</li>
+              <li><span class="mark neg-mark">✕</span>Rincorri risposte e persone diverse.</li>
+              <li><span class="mark neg-mark">✕</span>Salti da un ufficio all'altro.</li>
+              <li><span class="mark neg-mark">✕</span>Ti chiedi cosa viene dopo.</li>
+            </ul>
+          </div>
+
+          <div class="compare-card pos">
+            <div class="decor"></div>
+            <div class="head">
+              <span class="badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4,12 L10,18 L20,6"/></svg>
+              </span>
+              <h3>Con Erēdo</h3>
+            </div>
+            <ul class="compare-list">
+              <li><span class="mark pos-mark">✓</span>Sai sempre cosa fare.</li>
+              <li><span class="mark pos-mark">✓</span>Hai tutto in un unico posto.</li>
+              <li><span class="mark pos-mark">✓</span>Hai un unico esperto di riferimento.</li>
+              <li><span class="mark pos-mark">✓</span>Ti accompagniamo noi dall'inizio alla fine.</li>
+              <li><span class="mark pos-mark">✓</span>Sai sempre a che punto sei.</li>
+            </ul>
           </div>
         </div>
       </div>
