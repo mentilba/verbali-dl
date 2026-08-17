@@ -1,0 +1,2467 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="EREDO ti aiuta a gestire la successione con più ordine, chiarezza e controllo. Crea gratuitamente il tuo spazio personale.">
+  <meta name="theme-color" content="#22183f">
+  <title>EREDO — La successione, finalmente, in un unico posto</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="img/favicon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" as="image" href="img/eredo-hero-960.webp"
+    imagesrcset="img/eredo-hero-640.webp 640w, img/eredo-hero-960.webp 960w, img/eredo-hero-1440.webp 1440w"
+    imagesizes="(max-width: 620px) calc(100vw - 28px), (max-width: 900px) calc(100vw - 40px), 46vw"
+    type="image/webp">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  </noscript>
+  <style>
+    :root {
+      --night: #21183d;
+      --night-2: #30234e;
+      --violet: #63519d;
+      --violet-2: #7863bd;
+      --lilac: #eeeaf8;
+      --lilac-2: #f7f4fb;
+      --ivory: #fcfaf6;
+      --white: #fff;
+      --gold: #c7a765;
+      --gold-light: #ead7ac;
+      --ink: #251f31;
+      --muted: #706a78;
+      --line: rgba(36, 25, 61, .12);
+      --success: #4d7d65;
+      --danger: #a55f65;
+      --shadow: 0 24px 70px rgba(33, 24, 61, .13);
+      --radius: 26px;
+      --container: min(1180px, calc(100% - 40px));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--ivory);
+      font-family: "DM Sans", Arial, sans-serif;
+      font-stretch: normal;
+      letter-spacing: -.01em;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.03;
+      letter-spacing: -.02em;
+    }
+
+    h1 {
+      font-size: clamp(3.35rem, 6.6vw, 6.4rem);
+      font-weight: 500;
+    }
+
+    h2 {
+      font-size: clamp(2.45rem, 4.5vw, 4.5rem);
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .container {
+      width: var(--container);
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: clamp(90px, 11vw, 150px) 0;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--violet);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-lead {
+      max-width: 680px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+      line-height: 1.65;
+      letter-spacing: -.015em;
+    }
+
+    .btn {
+      display: inline-flex;
+      min-height: 54px;
+      padding: 0 25px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--violet);
+      color: white;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: var(--night);
+      box-shadow: 0 12px 25px rgba(33, 24, 61, .2);
+    }
+
+    .btn:focus-visible,
+    a:focus-visible,
+    summary:focus-visible,
+    input:focus-visible {
+      outline: 3px solid rgba(199, 167, 101, .65);
+      outline-offset: 3px;
+    }
+
+    .btn-arrow {
+      font-size: 1.2em;
+      transition: transform .25s ease;
+    }
+
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .microcopy {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: .81rem;
+      letter-spacing: -.01em;
+    }
+
+    .microcopy::before {
+      content: "✓";
+      display: grid;
+      width: 18px;
+      height: 18px;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(99, 81, 157, .12);
+      color: var(--violet);
+      font-size: .7rem;
+      font-weight: 700;
+    }
+
+    .site-header {
+      position: absolute;
+      z-index: 20;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 22px 0;
+      color: var(--night);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      width: 126px;
+      height: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .nav-links>a:not(.btn) {
+      position: relative;
+    }
+
+    .nav-links>a:not(.btn)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -5px;
+      left: 0;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .25s ease;
+    }
+
+    .nav-links>a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav .btn {
+      min-height: 44px;
+      padding-inline: 20px;
+      color: white;
+    }
+
+    .menu-toggle {
+      display: none;
+      border: 0;
+      background: none;
+      color: var(--night);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 860px;
+      padding: 145px 0 62px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 8% 20%, rgba(199, 167, 101, .16), transparent 25%),
+        linear-gradient(125deg, #fbf7f1 0%, #f6f1f8 48%, #eee8f6 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -160px;
+      bottom: -190px;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(99, 81, 157, .15);
+      border-radius: 50%;
+      box-shadow: 0 0 0 70px rgba(255, 255, 255, .17), 0 0 0 140px rgba(255, 255, 255, .12);
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: clamp(34px, 5vw, 80px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 27px;
+      padding: 8px 13px;
+      border: 1px solid rgba(99, 81, 157, .18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .55);
+      color: var(--violet);
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(199, 167, 101, .15);
+    }
+
+    .hero h1 {
+      max-width: 700px;
+      color: var(--night);
+    }
+
+    .hero h1 em {
+      display: block;
+      color: var(--violet);
+      font-style: normal;
+    }
+
+    .hero-copy>p {
+      max-width: 610px;
+      margin-top: 28px;
+      color: #595361;
+      font-size: clamp(1.05rem, 1.6vw, 1.28rem);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 20px;
+      align-items: center;
+      margin-top: 34px;
+    }
+
+    .hero-actions .microcopy {
+      flex-basis: 100%;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-photo {
+      position: relative;
+      aspect-ratio: .9;
+      overflow: hidden;
+      border-radius: 220px 220px 28px 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 58% center;
+    }
+
+    .hero-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(33, 24, 61, .17));
+      pointer-events: none;
+    }
+
+    .floating-card {
+      position: absolute;
+      right: -25px;
+      bottom: 44px;
+      z-index: 2;
+      width: min(305px, 75%);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, .8);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 20px 45px rgba(33, 24, 61, .2);
+      backdrop-filter: blur(14px);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .card-top strong {
+      color: var(--night);
+      font-size: .88rem;
+    }
+
+    .status {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: var(--success);
+      font-size: .7rem;
+      font-weight: 700;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .progress {
+      height: 6px;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: var(--lilac);
+    }
+
+    .progress span {
+      display: block;
+      width: 68%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--violet), var(--gold));
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 11px;
+      color: var(--muted);
+      font-size: .68rem;
+    }
+
+    .hero-steps {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 70px;
+      border-top: 1px solid rgba(33, 24, 61, .13);
+    }
+
+    .hero-step {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      padding: 28px 20px 5px 0;
+    }
+
+    .hero-step+.hero-step {
+      padding-left: 26px;
+      border-left: 1px solid rgba(33, 24, 61, .13);
+    }
+
+    .step-num {
+      color: var(--gold);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .hero-step strong {
+      max-width: 210px;
+      color: var(--night);
+      font-size: .88rem;
+      line-height: 1.35;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .manifesto {
+      background: var(--night);
+      color: white;
+    }
+
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: clamp(45px, 8vw, 120px);
+      align-items: start;
+    }
+
+    .manifesto .section-kicker {
+      color: var(--gold-light);
+    }
+
+    .manifesto h2 {
+      max-width: 570px;
+    }
+
+    .manifesto-text {
+      display: grid;
+      gap: 24px;
+      padding-top: 42px;
+      color: rgba(255, 255, 255, .7);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+
+    .manifesto-text .quote {
+      padding: 22px 0 0 28px;
+      border-left: 1px solid var(--gold);
+      color: white;
+      font-size: 1.27rem;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: clamp(50px, 8vw, 110px);
+      align-items: center;
+    }
+
+    .scattered {
+      position: relative;
+      min-height: 560px;
+    }
+
+    .paper {
+      position: absolute;
+      width: 58%;
+      min-height: 210px;
+      padding: 25px;
+      border: 1px solid rgba(33, 24, 61, .09);
+      border-radius: 14px;
+      background: white;
+      box-shadow: 0 18px 50px rgba(33, 24, 61, .09);
+    }
+
+    .paper:nth-child(1) {
+      top: 5%;
+      left: 2%;
+      transform: rotate(-6deg);
+    }
+
+    .paper:nth-child(2) {
+      top: 29%;
+      right: 1%;
+      transform: rotate(5deg);
+    }
+
+    .paper:nth-child(3) {
+      bottom: 1%;
+      left: 14%;
+      transform: rotate(-2deg);
+    }
+
+    .paper-label {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 99px;
+      background: var(--lilac);
+      color: var(--violet);
+      font-size: .68rem;
+      font-weight: 700;
+    }
+
+    .paper h3 {
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+
+    .paper-lines {
+      display: grid;
+      gap: 9px;
+      margin-top: 22px;
+    }
+
+    .paper-lines i {
+      display: block;
+      height: 7px;
+      border-radius: 9px;
+      background: #efedf1;
+    }
+
+    .paper-lines i:nth-child(2) {
+      width: 72%;
+    }
+
+    .paper-lines i:nth-child(3) {
+      width: 88%;
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 0;
+      margin-top: 38px;
+      border-top: 1px solid var(--line);
+    }
+
+    .problem-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .problem-item span {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .problem-item p {
+      color: #595361;
+    }
+
+    .comparison {
+      background: var(--lilac-2);
+    }
+
+    .center-heading {
+      max-width: 850px;
+      margin: 0 auto 55px;
+      text-align: center;
+    }
+
+    .center-heading .section-kicker::before {
+      display: none;
+    }
+
+    .center-heading .section-lead {
+      margin-inline: auto;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .compare-card {
+      padding: clamp(28px, 4vw, 50px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+    }
+
+    .compare-card.with {
+      position: relative;
+      overflow: hidden;
+      border-color: rgba(99, 81, 157, .23);
+      background: var(--night);
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .compare-card.with::after {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -100px;
+      width: 280px;
+      height: 280px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 50px rgba(255, 255, 255, .03);
+    }
+
+    .compare-label {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 30px;
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+
+    .compare-label i {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(165, 95, 101, .12);
+      color: var(--danger);
+      font-style: normal;
+      font-size: .9rem;
+    }
+
+    .with .compare-label i {
+      background: rgba(199, 167, 101, .18);
+      color: var(--gold-light);
+    }
+
+    .compare-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 17px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .compare-list li {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .compare-list li::before {
+      content: "×";
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .with .compare-list li {
+      color: rgba(255, 255, 255, .76);
+    }
+
+    .with .compare-list li::before {
+      content: "✓";
+      color: var(--gold-light);
+    }
+
+    .space-section {
+      overflow: hidden;
+      background: white;
+    }
+
+    .space-intro {
+      display: grid;
+      grid-template-columns: .83fr 1.17fr;
+      gap: 60px;
+      align-items: end;
+    }
+
+    .space-intro .section-lead {
+      margin: 0;
+    }
+
+    .app-stage {
+      position: relative;
+      height: fit-content;
+      min-height: 0;
+      margin-top: 45px;
+      padding: 16px 16px 0;
+      border-radius: 28px;
+      background: linear-gradient(135deg, var(--night), #4a3976);
+    }
+
+    .app-stage::before {
+      display: none;
+    }
+
+    .app-window {
+      height: fit-content;
+      min-height: 0;
+      overflow: hidden;
+      border: 7px solid rgba(255, 255, 255, .12);
+      border-bottom: 0;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -8px 70px rgba(0, 0, 0, .25);
+      line-height: 0;
+    }
+
+    .app-window img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .space-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .space-feature {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--ivory);
+    }
+
+    .space-feature span {
+      color: var(--gold);
+      font-size: .74rem;
+      font-weight: 700;
+    }
+
+    .space-feature h3 {
+      margin-top: 35px;
+    }
+
+    .space-feature p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    .mobile-flow {
+      overflow: hidden;
+      padding-top: 75px;
+      padding-bottom: 0;
+      background: linear-gradient(180deg, var(--ivory), #f2edf8);
+    }
+
+    .mobile-flow-head {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 60px;
+      align-items: end;
+    }
+
+    .mobile-flow-head .section-lead {
+      margin: 0;
+    }
+
+    .phones-stage {
+      position: relative;
+      margin-top: 36px;
+      padding: 20px 55px;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px solid rgba(99, 81, 157, .13);
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 50% 110%, rgba(199, 167, 101, .22), transparent 35%),
+        linear-gradient(135deg, #e9e3f5, #f8f4fb);
+    }
+
+    .phones-stage::before {
+      content: "";
+      position: absolute;
+      top: -180px;
+      left: 50%;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(99, 81, 157, .1);
+      border-radius: 50%;
+      box-shadow: 0 0 0 70px rgba(255, 255, 255, .2);
+      transform: translateX(-50%);
+    }
+
+    .phones-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      align-items: start;
+      max-width: 980px;
+      margin: auto;
+    }
+
+    .phone-shot {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: .492;
+      object-fit: cover;
+      object-position: center top;
+      filter: drop-shadow(0 28px 30px rgba(33, 24, 61, .15));
+    }
+
+    .phone-shot:nth-child(2) {
+      transform: none;
+    }
+
+    .swipe-hint {
+      display: none;
+    }
+
+    .free-section {
+      background: linear-gradient(120deg, #eee8f6 0%, #f8f4f8 50%, #f4eee5 100%);
+    }
+
+    .free-grid {
+      display: grid;
+      grid-template-columns: 1fr .85fr;
+      gap: clamp(55px, 9vw, 130px);
+      align-items: center;
+    }
+
+    .free-panel {
+      padding: clamp(30px, 4.5vw, 54px);
+      border: 1px solid rgba(255, 255, 255, .75);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .65);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .free-panel h3 {
+      font-size: 1.75rem;
+    }
+
+    .yes-list {
+      display: grid;
+      gap: 16px;
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .yes-list li {
+      display: grid;
+      grid-template-columns: 35px 1fr;
+      gap: 13px;
+      align-items: center;
+      color: #514a5a;
+    }
+
+    .yes-list li::before {
+      content: "✓";
+      display: grid;
+      width: 35px;
+      height: 35px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lilac);
+      color: var(--violet);
+      font-weight: 700;
+    }
+
+    .free-copy .section-lead {
+      margin-bottom: 30px;
+    }
+
+    .free-copy .microcopy {
+      margin-top: 14px;
+    }
+
+    .steps-section {
+      background: var(--night);
+      color: white;
+    }
+
+    .steps-section .section-kicker {
+      color: var(--gold-light);
+    }
+
+    .steps-section .section-lead {
+      color: rgba(255, 255, 255, .63);
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 65px;
+      background: rgba(255, 255, 255, .13);
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .process-card {
+      min-height: 380px;
+      padding: 38px;
+      background: var(--night);
+    }
+
+    .process-num {
+      display: flex;
+      justify-content: space-between;
+      color: var(--gold-light);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .process-num i {
+      position: relative;
+      display: grid;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      place-items: center;
+      border: 1px solid rgba(234, 215, 172, .28);
+      border-radius: 50%;
+      background: rgba(199, 167, 101, .12);
+      color: var(--gold-light);
+      font-size: 1rem;
+      font-style: normal;
+    }
+
+    .process-card h3 {
+      max-width: 240px;
+      margin-top: 92px;
+      font-size: 1.65rem;
+    }
+
+    .process-card p {
+      margin-top: 20px;
+      color: rgba(255, 255, 255, .58);
+      line-height: 1.65;
+    }
+
+    .care-grid {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: clamp(50px, 8vw, 105px);
+      align-items: center;
+    }
+
+    .care-photo {
+      position: relative;
+    }
+
+    .care-photo img {
+      width: 100%;
+      min-height: 560px;
+      object-fit: cover;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .care-photo::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -28px;
+      bottom: -28px;
+      width: 65%;
+      height: 65%;
+      border: 1px solid var(--gold);
+      border-radius: 28px;
+    }
+
+    .pillars {
+      display: grid;
+      gap: 0;
+      margin-top: 38px;
+      border-top: 1px solid var(--line);
+      counter-reset: pillars;
+    }
+
+    .pillar {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+      counter-increment: pillars;
+    }
+
+    .pillar::before {
+      content: "0" counter(pillars);
+      color: var(--gold);
+      font-size: .76rem;
+      font-weight: 700;
+    }
+
+    .pillar strong {
+      display: block;
+      color: var(--night);
+    }
+
+    .pillar p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .audience {
+      background: var(--lilac-2);
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 70px;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .check-card {
+      min-height: 185px;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: white;
+    }
+
+    .audience-icon {
+      position: relative;
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--lilac);
+      color: var(--violet);
+      font-size: 1.12rem;
+    }
+
+    .check-card p {
+      margin-top: 27px;
+      color: #514a5a;
+      font-size: 1.06rem;
+      font-weight: 500;
+      line-height: 1.42;
+      letter-spacing: -.015em;
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: clamp(50px, 9vw, 130px);
+      align-items: start;
+    }
+
+    .faq-list {
+      border-top: 1px solid var(--line);
+    }
+
+    details {
+      border-bottom: 1px solid var(--line);
+    }
+
+    summary {
+      display: flex;
+      min-height: 82px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      list-style: none;
+      color: var(--night);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      flex: 0 0 auto;
+      color: var(--violet);
+      font-size: 1.4rem;
+      font-weight: 400;
+      transition: transform .25s ease;
+    }
+
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    details p {
+      padding: 0 45px 25px 0;
+      color: var(--muted);
+      font-size: .93rem;
+      line-height: 1.65;
+    }
+
+    .final-cta {
+      padding-top: 0;
+    }
+
+    .cta-box {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(48px, 8vw, 95px);
+      border-radius: 38px;
+      background: var(--violet);
+      color: white;
+    }
+
+    .cta-box::before,
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 50%;
+    }
+
+    .cta-box::before {
+      top: -170px;
+      right: -100px;
+      width: 430px;
+      height: 430px;
+      box-shadow: 0 0 0 70px rgba(255, 255, 255, .035);
+    }
+
+    .cta-box::after {
+      bottom: -130px;
+      left: -110px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .cta-content .section-kicker {
+      color: var(--gold-light);
+    }
+
+    .cta-content .section-kicker::before {
+      display: none;
+    }
+
+    .cta-content h2 {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+    }
+
+    .cta-content p {
+      max-width: 620px;
+      margin: 25px auto 32px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 1.08rem;
+    }
+
+    .email-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 12px;
+      max-width: 720px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-field label {
+      margin-left: 5px;
+      color: white;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .email-form input {
+      width: 100%;
+      min-width: 0;
+      min-height: 56px;
+      padding: 0 17px;
+      border: 1px solid rgba(255, 255, 255, .72);
+      border-radius: 15px;
+      outline: 0;
+      background: white;
+      color: var(--ink);
+      box-shadow: 0 8px 24px rgba(33, 24, 61, .1);
+    }
+
+    .email-form input:focus {
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 3px rgba(234, 215, 172, .22), 0 8px 24px rgba(33, 24, 61, .1);
+    }
+
+    .email-form .btn {
+      grid-column: 1 / -1;
+      width: 100%;
+      background: var(--night);
+    }
+
+    .email-form[aria-busy="true"] .btn {
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    .cta-note {
+      margin-top: 15px !important;
+      font-size: .78rem !important;
+      color: rgba(255, 255, 255, .58) !important;
+    }
+
+    .form-message {
+      min-height: 24px;
+      margin-top: 10px;
+      font-size: .82rem;
+    }
+
+    .privacy-check {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255, 255, 255, .76);
+      font-size: .78rem;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .privacy-check input {
+      flex: 0 0 auto;
+      width: 17px;
+      min-height: 17px;
+      margin-top: 1px;
+      padding: 0;
+      border-radius: 4px;
+      box-shadow: none;
+      accent-color: var(--gold);
+    }
+
+    .privacy-check button,
+    .footer-link-button {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .privacy-check button {
+      color: white;
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 38px 0;
+      background: var(--night);
+      color: rgba(255, 255, 255, .55);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-logo {
+      filter: brightness(0) invert(1);
+      opacity: .85;
+      width: 105px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: .76rem;
+    }
+
+    .footer-copy {
+      font-size: .75rem;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .privacy-modal[hidden] {
+      display: none;
+    }
+
+    .privacy-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .privacy-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(27, 19, 48, .72);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .privacy-dialog {
+      position: relative;
+      width: min(860px, 100%);
+      max-height: min(86vh, 880px);
+      overflow: auto;
+      border: 1px solid rgba(106, 78, 166, .2);
+      border-radius: 28px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 30px 90px rgba(22, 14, 42, .34);
+      opacity: 0;
+      transform: translateY(18px) scale(.985);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .privacy-modal.is-open .privacy-backdrop,
+    .privacy-modal.is-open .privacy-dialog {
+      opacity: 1;
+    }
+
+    .privacy-modal.is-open .privacy-dialog {
+      transform: none;
+    }
+
+    .privacy-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 28px 19px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(12px);
+    }
+
+    .privacy-head h2 {
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+      letter-spacing: -.04em;
+    }
+
+    .privacy-close {
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--lilac-2);
+      color: var(--night);
+      font-size: 1.45rem;
+      cursor: pointer;
+    }
+
+    .privacy-content {
+      padding: 28px;
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.7;
+    }
+
+    .privacy-content h3 {
+      margin: 28px 0 7px;
+      color: var(--night);
+      font-size: 1.05rem;
+    }
+
+    .privacy-content h3:first-of-type {
+      margin-top: 18px;
+    }
+
+    .privacy-content p + p,
+    .privacy-content ul {
+      margin-top: 9px;
+    }
+
+    .privacy-content ul {
+      padding-left: 20px;
+    }
+
+    .privacy-content a {
+      color: var(--purple);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .privacy-meta {
+      color: var(--purple);
+      font-weight: 700;
+    }
+
+    .privacy-placeholder {
+      display: inline;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #fff2c7;
+      color: #6f4c00;
+      font-weight: 800;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .privacy-modal {
+        align-items: end;
+        padding: 10px;
+      }
+
+      .privacy-dialog {
+        max-height: 92vh;
+        border-radius: 22px;
+      }
+
+      .privacy-head {
+        padding: 19px 20px 15px;
+      }
+
+      .privacy-content {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 28px;
+        background: var(--ivory);
+        font-size: 1.4rem;
+        visibility: hidden;
+        transform: translateX(100%);
+        transition: transform .35s ease, visibility .35s;
+      }
+
+      .menu-open .nav-links {
+        visibility: visible;
+        transform: none;
+      }
+
+      .menu-toggle {
+        position: relative;
+        z-index: 40;
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        font-size: 1.4rem;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 125px;
+      }
+
+      .hero-grid,
+      .manifesto-grid,
+      .problem-grid,
+      .space-intro,
+      .free-grid,
+      .care-grid,
+      .audience-grid,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-flow-head {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .hero-photo {
+        aspect-ratio: 1.15;
+        border-radius: 180px 180px 24px 24px;
+      }
+
+      .hero-visual {
+        max-width: 650px;
+      }
+
+      .hero-steps,
+      .space-features,
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-step+.hero-step {
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      .hero-step {
+        border-bottom: 1px solid rgba(33, 24, 61, .13);
+      }
+
+      .manifesto-text {
+        padding-top: 0;
+      }
+
+      .problem-grid {
+        gap: 20px;
+      }
+
+      .scattered {
+        order: 2;
+      }
+
+      .space-intro .section-lead {
+        margin-top: 20px;
+      }
+
+      .app-stage {
+        padding: 14px 14px 0;
+      }
+
+      .process-card {
+        min-height: 280px;
+      }
+
+      .process-card h3 {
+        margin-top: 50px;
+      }
+
+      .audience-grid {
+        gap: 45px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      :root {
+        --container: min(100% - 28px, 1180px);
+        --radius: 21px;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 15vw, 4.4rem);
+      }
+
+      h2 {
+        font-size: clamp(2.3rem, 11vw, 3.4rem);
+      }
+
+      .site-header {
+        padding-top: 17px;
+      }
+
+      .logo img {
+        width: 105px;
+      }
+
+      .hero {
+        padding-bottom: 45px;
+      }
+
+      .hero-photo {
+        aspect-ratio: .9;
+      }
+
+      .floating-card {
+        right: -6px;
+        bottom: 22px;
+      }
+
+      .hero-steps {
+        margin-top: 45px;
+      }
+
+      .compare-grid,
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scattered {
+        min-height: 520px;
+      }
+
+      .paper {
+        width: 72%;
+        min-height: 180px;
+      }
+
+      .space-feature {
+        min-height: 170px;
+      }
+
+      .app-stage {
+        margin-inline: -14px;
+        padding: 10px 10px 0;
+        border-radius: 18px;
+      }
+
+      .app-window img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: auto;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .mobile-flow {
+        padding-top: 55px;
+        padding-bottom: 0;
+      }
+
+      .phones-stage {
+        margin-inline: -14px;
+        padding: 16px 18px;
+        border-radius: 22px;
+      }
+
+      .phones-grid {
+        grid-template-columns: repeat(3, 250px);
+        gap: 14px;
+        width: max-content;
+        height: auto;
+        min-height: 0;
+        margin: 0;
+      }
+
+      .phones-stage {
+        height: auto;
+        min-height: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .phones-stage::-webkit-scrollbar {
+        display: none;
+      }
+
+      .phone-shot {
+        width: 250px;
+        height: 508px;
+        aspect-ratio: auto;
+        object-fit: cover;
+        object-position: center top;
+        scroll-snap-align: center;
+      }
+
+      .phone-shot:nth-child(2) {
+        transform: none;
+      }
+
+      .swipe-hint {
+        position: absolute;
+        z-index: 5;
+        top: 50%;
+        right: 18px;
+        display: grid;
+        width: 52px;
+        height: 52px;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, .8);
+        border-radius: 50%;
+        background: rgba(33, 24, 61, .88);
+        color: white;
+        box-shadow: 0 12px 30px rgba(33, 24, 61, .24);
+        opacity: 1;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: opacity .45s ease, transform .45s ease;
+        animation: swipeCue 1.8s ease-in-out infinite;
+      }
+
+      .phones-stage.has-swiped .swipe-hint {
+        opacity: 0;
+        transform: translate(12px, -50%);
+        animation: none;
+      }
+
+      @keyframes swipeCue {
+
+        0%,
+        100% {
+          padding-left: 0;
+        }
+
+        50% {
+          padding-left: 8px;
+        }
+      }
+
+      .care-photo img {
+        min-height: 430px;
+      }
+
+      .email-form {
+        grid-template-columns: 1fr;
+        gap: 13px;
+      }
+
+      .email-form input {
+        min-height: 50px;
+      }
+
+      .email-form .btn {
+        grid-column: 1;
+        width: 100%;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="#top" aria-label="EREDO, torna all'inizio">
+        <img src="img/logotipo.svg" alt="EREDO">
+      </a>
+      <nav class="nav-links" id="main-navigation" aria-label="Navigazione principale">
+        <a href="#come-funziona">Come funziona</a>
+        <a href="#spazio-eredo">Il tuo spazio</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn" href="#inizia">Inizia gratuitamente la tua successione <span class="btn-arrow">→</span></a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false"
+        aria-controls="main-navigation">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" id="sec-hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> Devi fare una successione e non sai da dove partire?
+            </div>
+            <h1>EREDO: la successione, <em>finalmente, in un unico posto.</em></h1>
+            <p>EREDO ti aiuta a mettere ordine tra documenti, beni, eredi e passaggi burocratici, con un percorso più
+              chiaro e un unico punto di riferimento in un momento in cui non dovresti rincorrere tutto da solo.</p>
+            <div class="hero-actions">
+              <a class="btn" href="#inizia">Inizia gratuitamente la tua successione <span class="btn-arrow">→</span></a>
+              <span class="microcopy">Crea il tuo spazio gratuito.</span>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-photo">
+              <img src="img/eredo-hero-960.webp"
+                srcset="img/eredo-hero-640.webp 640w, img/eredo-hero-960.webp 960w, img/eredo-hero-1440.webp 1440w"
+                sizes="(max-width: 620px) calc(100vw - 28px), (max-width: 900px) calc(100vw - 40px), 46vw" width="960"
+                height="600" fetchpriority="high" alt="Una persona organizza con calma i documenti della successione">
+            </div>
+            <div class="floating-card" aria-hidden="true">
+              <div class="card-top"><strong>Il tuo percorso</strong><span class="status">In ordine</span></div>
+              <div class="progress"><span></span></div>
+              <div class="card-meta"><span>Informazioni raccolte</span><span>68%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-steps" aria-label="Come iniziare">
+          <div class="hero-step"><span class="step-num">01</span><strong>Crei il tuo spazio in pochi click</strong>
+          </div>
+          <div class="hero-step"><span class="step-num">02</span><strong>Inserisci le prime informazioni</strong></div>
+          <div class="hero-step"><span class="step-num">03</span><strong>Inizi l’iter da un unico posto</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section manifesto" id="sec-manifesto">
+      <div class="container manifesto-grid">
+        <div class="reveal">
+          <h2>Una successione non arriva mai in un momento qualunque…</h2>
+        </div>
+        <div class="manifesto-text reveal">
+          <p>Ecco perché la burocrazia non dovrebbe aggiungere caos a un momento già delicato.</p>
+          <p>EREDO nasce per aiutarti a gestire questo passaggio con più ordine, più cura e più direzione, trasformando
+            documenti, dubbi e responsabilità in un percorso più chiaro da affrontare.</p>
+          <p class="quote">Perché un’eredità non è solo qualcosa che ricevi. È qualcosa di cui prenderti cura nel modo
+            giusto.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sec-problem">
+      <div class="container problem-grid">
+        <div class="scattered reveal" aria-hidden="true">
+          <article class="paper">
+            <span class="paper-label">Email</span>
+            <h3>Un documento è in una cartella.</h3>
+            <div class="paper-lines"><i></i><i></i><i></i></div>
+          </article>
+          <article class="paper">
+            <span class="paper-label">Telefonata</span>
+            <h3>Un dato lo conosce un altro erede.</h3>
+            <div class="paper-lines"><i></i><i></i><i></i></div>
+          </article>
+          <article class="paper">
+            <span class="paper-label">Cartella</span>
+            <h3>Un dubbio resta aperto per giorni.</h3>
+            <div class="paper-lines"><i></i><i></i><i></i></div>
+          </article>
+        </div>
+        <div class="reveal">
+          <h2>Smetti di inseguire documenti, informazioni e aggiornamenti: inizia la successione da un unico punto.</h2>
+          <p class="section-lead">Il motivo per cui molte successioni diventano complicate non è sempre la pratica in
+            sé. Spesso è il modo in cui si parte.</p>
+          <div class="problem-list">
+            <div class="problem-item"><span>01</span>
+              <p>Si parte con informazioni incomplete.</p>
+            </div>
+            <div class="problem-item"><span>02</span>
+              <p>Si parte senza sapere quali documenti servono.</p>
+            </div>
+            <div class="problem-item"><span>03</span>
+              <p>Si parte con dubbi sui costi, sui tempi e sui prossimi passaggi.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section comparison" id="sec-comparison">
+      <div class="container">
+        <div class="center-heading reveal">
+          <h2>La differenza tra rincorrere la successione e averla finalmente sotto controllo.</h2>
+          <p class="section-lead">Con EREDO inizi da un unico punto, con più ordine, più chiarezza e un percorso più
+            semplice da seguire.</p>
+        </div>
+        <div class="compare-grid">
+          <article class="compare-card reveal">
+            <div class="compare-label"><i>×</i> Senza EREDO</div>
+            <ul class="compare-list">
+              <li>Devi capire da solo quali documenti servono.</li>
+              <li>Le informazioni restano sparse tra email, WhatsApp, telefonate e fogli.</li>
+              <li>Devi coordinare beni, eredi, scadenze e richieste senza un punto unico.</li>
+              <li>Puoi non sapere cosa manca o quale sia il prossimo passaggio.</li>
+              <li>Costi e tempi possono sembrarti poco chiari.</li>
+              <li>La successione rischia di diventare un secondo peso in un momento già delicato.</li>
+            </ul>
+          </article>
+          <article class="compare-card with reveal">
+            <div class="compare-label"><i>✓</i> Con EREDO</div>
+            <ul class="compare-list">
+              <li>Hai un unico punto da cui iniziare.</li>
+              <li>Puoi creare gratuitamente il tuo spazio personale.</li>
+              <li>Inserisci le prime informazioni sulla successione.</li>
+              <li>Inizi a capire quali documenti e dati servono.</li>
+              <li>Hai un percorso più ordinato e leggibile.</li>
+              <li>Puoi proseguire con un unico punto di riferimento.</li>
+              <li>Affronti la successione con più controllo, più chiarezza e più cura.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section space-section" id="sec-space">
+      <div class="container">
+        <div class="space-intro reveal">
+          <div>
+            <span class="section-kicker">Il tuo spazio EREDO</span>
+            <h2>Prima di proseguire, inizia a fare chiarezza.</h2>
+          </div>
+          <p class="section-lead">Cosa troverai nel tuo spazio EREDO</p>
+        </div>
+        <div class="app-stage reveal">
+          <div class="app-window">
+            <img src="img/eredo-app-practice-1024.webp"
+              srcset="img/eredo-app-practice-640.webp 640w, img/eredo-app-practice-1024.webp 1024w, img/eredo-app-practice-1600.webp 1600w"
+              sizes="(max-width: 900px) calc(100vw - 68px), 1060px" width="1024" height="576" loading="lazy"
+              decoding="async" alt="Schermata dello spazio personale EREDO con stato della pratica e documenti">
+          </div>
+        </div>
+        <div class="space-features">
+          <article class="space-feature reveal"><span>01</span>
+            <h3>Una raccolta ordinata delle prime informazioni</h3>
+            <p>Puoi iniziare a inserire i dati principali della successione: beni, eredi, documenti disponibili,
+              tempistiche e stato attuale della pratica.</p>
+          </article>
+          <article class="space-feature reveal"><span>02</span>
+            <h3>Un percorso guidato per capire cosa serve</h3>
+            <p>Non devi sapere già tutto prima di iniziare. Lo spazio EREDO ti aiuta a orientarti tra le informazioni
+              principali e a capire quali elementi potrebbero essere necessari per proseguire.</p>
+          </article>
+          <article class="space-feature reveal"><span>03</span>
+            <h3>Una prima verifica sulla successione che devi fare</h3>
+            <p>Inserendo le informazioni iniziali, puoi capire se il percorso EREDO è adatto al tuo caso e se ha senso
+              proseguire con il servizio completo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mobile-flow" id="sec-mobileflow">
+      <div class="container">
+        <div class="mobile-flow-head reveal">
+          <div>
+            <span class="section-kicker">Il tuo spazio EREDO</span>
+            <h2>Un unico posto dove iniziare a costruire il tuo caso</h2>
+          </div>
+          <p class="section-lead">Invece di partire da cartelle, email, messaggi e appunti separati, puoi cominciare da
+            un ambiente pensato per raccogliere le prime informazioni in modo più ordinato.</p>
+        </div>
+        <div class="phones-stage reveal" aria-label="Schermate mobile dello spazio EREDO">
+          <div class="phones-grid">
+            <img class="phone-shot" src="img/eredo-mobile-dashboard-480.webp"
+              srcset="img/eredo-mobile-dashboard-320.webp 320w, img/eredo-mobile-dashboard-480.webp 480w, img/eredo-mobile-dashboard-640.webp 640w"
+              sizes="(max-width: 620px) 250px, 30vw" width="480" height="976" loading="lazy" decoding="async"
+              alt="Schermata mobile EREDO con riepilogo e stato delle pratiche">
+            <img class="phone-shot" src="img/eredo-mobile-documents-480.webp"
+              srcset="img/eredo-mobile-documents-320.webp 320w, img/eredo-mobile-documents-480.webp 480w, img/eredo-mobile-documents-640.webp 640w"
+              sizes="(max-width: 620px) 250px, 30vw" width="480" height="976" loading="lazy" decoding="async"
+              alt="Schermata mobile EREDO per il caricamento dei documenti">
+            <img class="phone-shot" src="img/eredo-mobile-completed-480.webp"
+              srcset="img/eredo-mobile-completed-320.webp 320w, img/eredo-mobile-completed-480.webp 480w, img/eredo-mobile-completed-640.webp 640w"
+              sizes="(max-width: 620px) 250px, 30vw" width="480" height="976" loading="lazy" decoding="async"
+              alt="Schermata mobile EREDO con successione completata">
+          </div>
+          <div class="swipe-hint" aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section free-section" id="sec-free">
+      <div class="container free-grid">
+        <div class="free-copy reveal">
+          <h2>Entra gratis in EREDO prima di decidere se affidarci la tua successione.</h2>
+          <p class="section-lead">Per questo il primo accesso a EREDO è gratuito. Ti permette di creare il tuo spazio
+            personale, iniziare a inserire le prime informazioni e capire se la soluzione è adatta alla successione che
+            devi fare.</p>
+          <a class="btn" href="#inizia">Inizia gratuitamente la tua successione <span class="btn-arrow">→</span></a>
+          <span class="microcopy">Entri, inizi, capisci e solo dopo scegli se proseguire.</span>
+        </div>
+        <div class="free-panel reveal">
+          <h3>È un primo passo concreto per uscire dalla confusione e iniziare a mettere ordine.</h3>
+          <ul class="yes-list">
+            <li>Non paghi per accedere.</li>
+            <li>Non sei obbligato ad attivare il servizio completo.</li>
+            <li>Non devi decidere al buio.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section steps-section" id="sec-steps">
+      <div class="container">
+        <div class="reveal">
+          <h2>Prima metti ordine. Poi capisci se EREDO è la soluzione giusta per la tua successione.</h2>
+          <p class="section-lead">EREDO è pensato per rendere il primo passo più semplice e più consapevole. Non ti
+            chiede di acquistare subito un servizio.</p>
+        </div>
+        <div class="process">
+          <article class="process-card reveal">
+            <div class="process-num"><span>PASSO 01</span><i class="fa-solid fa-right-to-bracket"
+                aria-hidden="true"></i></div>
+            <h3>Accedi gratuitamente</h3>
+            <p>Crei il tuo spazio personale senza alcun pagamento alla registrazione.</p>
+          </article>
+          <article class="process-card reveal">
+            <div class="process-num"><span>PASSO 02</span><i class="fa-solid fa-list-check" aria-hidden="true"></i>
+            </div>
+            <h3>Inserisci le prime informazioni</h3>
+            <p>Rispondi ad alcune domande sulla successione che devi fare: beni, eredi, documenti disponibili,
+              tempistiche e stato attuale della pratica.</p>
+          </article>
+          <article class="process-card reveal">
+            <div class="process-num"><span>PASSO 03</span><i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+            </div>
+            <h3>Scopri se EREDO è adatto alla tua successione</h3>
+            <p>Una volta inserite le prime informazioni, puoi capire se il percorso EREDO è adatto alla tua situazione e
+              se ha senso proseguire con il servizio completo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sec-pillars">
+      <div class="container care-grid">
+        <div class="care-photo reveal">
+          <img src="img/eredo-cura-800.webp"
+            srcset="img/eredo-cura-480.webp 480w, img/eredo-cura-800.webp 800w, img/eredo-cura-1200.webp 1200w"
+            sizes="(max-width: 900px) calc(100vw - 40px), 45vw" width="800" height="600" loading="lazy" decoding="async"
+            alt="Due persone raccolgono insieme le informazioni relative a un immobile">
+        </div>
+        <div class="reveal">
+          <span class="section-kicker">I PILASTRI DI EREDO</span>
+          <h2>Tutto ciò che rende EREDO diverso dal “solito modo” di fare successione.</h2>
+          <p class="section-lead">Se EREDO deve diventare un punto di riferimento, non può limitarsi a digitalizzare una
+            pratica. Deve cambiare l’esperienza di chi deve fare la successione.</p>
+          <div class="pillars">
+            <div class="pillar">
+              <div><strong>Tutto in un unico posto</strong>
+                <p>La successione non deve vivere tra cartelle, email, messaggi e telefonate.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div><strong>Un punto di riferimento chiaro</strong>
+                <p>Ti serve sapere chi ti accompagna, cosa sta succedendo e quali passaggi devi affrontare.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div><strong>Un percorso più controllabile</strong>
+                <p>La chiarezza, invece, ti permette di capire cosa serve, cosa manca e se EREDO può essere la soluzione
+                  giusta per il tuo caso.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div><strong>Uno strumento gratuito per iniziare</strong>
+                <p>Il portale EREDO è messo gratuitamente a tua disposizione per semplificare il primo accesso, ridurre
+                  l’attrito e aiutarti a iniziare con più ordine.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div><strong>Cura in un momento delicato</strong>
+                <p>EREDO non tratta l’eredità come una semplice procedura. La tratta come un passaggio importante, da
+                  affrontare con rispetto, attenzione e metodo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section audience" id="sec-audience">
+      <div class="container audience-grid">
+        <div class="reveal">
+          <span class="section-kicker">PER CHI È EREDO</span>
+          <h2>EREDO è per chi deve fare una successione e non vuole iniziare nel modo sbagliato.</h2>
+          <p class="section-lead">EREDO è pensato per chi vuole gestire un passaggio importante con più chiarezza, più
+            cura e più controllo.</p>
+        </div>
+        <div class="check-grid">
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-compass"
+                aria-hidden="true"></i></span>
+            <p>Non sai con precisione da dove partire;</p>
+          </article>
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-house"
+                aria-hidden="true"></i></span>
+            <p>Hai ereditato una casa, un conto, un terreno o altri beni;</p>
+          </article>
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-user-group"
+                aria-hidden="true"></i></span>
+            <p>Ci sono più eredi da coordinare;</p>
+          </article>
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-folder-open"
+                aria-hidden="true"></i></span>
+            <p>Vuoi evitare documenti e informazioni sparse;</p>
+          </article>
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-route"
+                aria-hidden="true"></i></span>
+            <p>Vuoi capire se puoi proseguire con un percorso guidato;</p>
+          </article>
+          <article class="check-card reveal"><span class="audience-icon"><i class="fa-solid fa-shield-halved"
+                aria-hidden="true"></i></span>
+            <p>Vuoi affrontare la successione con più ordine e meno incertezza.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sec-faq">
+      <div class="container faq-grid">
+        <div class="reveal">
+          <span class="section-kicker">FAQ</span>
+          <h2>Prima di proseguire, inizia a fare chiarezza.</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>Cos’è EREDO?</summary>
+            <p>EREDO è una soluzione pensata per aiutarti a gestire la successione con più ordine, chiarezza e
+              controllo. Il portale è uno strumento gratuito che ti permette di iniziare, inserire le prime informazioni
+              e capire se il percorso è adatto al tuo caso.</p>
+          </details>
+          <details>
+            <summary>L’accesso a EREDO è gratuito?</summary>
+            <p>Sì. Puoi creare gratuitamente il tuo spazio personale. Non è richiesto alcun pagamento alla
+              registrazione.</p>
+          </details>
+          <details>
+            <summary>Cosa succede dopo l’iscrizione?</summary>
+            <p>Dopo l’accesso puoi inserire le prime informazioni sulla successione e iniziare a capire se EREDO è
+              adatto alla situazione che devi gestire.</p>
+          </details>
+          <details>
+            <summary>Devo attivare subito il servizio completo?</summary>
+            <p>No. L’accesso gratuito serve proprio per iniziare senza impegno, conoscere EREDO e decidere solo dopo se
+              proseguire.</p>
+          </details>
+          <details>
+            <summary>EREDO è adatto a tutte le successioni?</summary>
+            <p>Dipende dal caso. Ogni successione può avere caratteristiche diverse. Per questo il primo accesso serve
+              anche a capire se EREDO è adatto alla tua situazione.</p>
+          </details>
+          <details>
+            <summary>EREDO è una piattaforma digitale?</summary>
+            <p>EREDO è prima di tutto una soluzione per la gestione della successione. Il portale è uno strumento
+              gratuito messo a disposizione per semplificare l’esperienza e aiutarti a iniziare con più ordine.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta" id="sec-cta-final">
+      <div class="container">
+        <div class="cta-box reveal">
+          <div class="cta-content">
+            <h2>Non partire da carte sparse, dubbi e telefonate da rincorrere.</h2>
+            <p>Inizia gratuitamente da EREDO e scopri se è la soluzione giusta per la successione che devi fare. Crea il
+              tuo spazio personale, inserisci le prime informazioni e fai il primo passo verso una successione più
+              ordinata, più chiara e più controllabile.</p>
+            <form class="email-form" novalidate aria-label="Inizia gratuitamente la tua successione">
+              <div class="form-field">
+                <label for="nome">Nome</label>
+                <input id="nome" name="nome" type="text" autocomplete="given-name" placeholder="Il tuo nome" required>
+              </div>
+              <div class="form-field">
+                <label for="cognome">Cognome</label>
+                <input id="cognome" name="cognome" type="text" autocomplete="family-name" placeholder="Il tuo cognome"
+                  required>
+              </div>
+              <div class="form-field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="La tua email" required>
+              </div>
+              <div class="form-field">
+                <label for="telefono">Telefono</label>
+                <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel"
+                  placeholder="Il tuo numero di telefono" required>
+              </div>
+              <label class="privacy-check">
+                <input name="privacy_read" type="checkbox" required>
+                <span>Dichiaro di aver letto l’<button type="button" data-privacy-open>informativa privacy</button>.</span>
+              </label>
+              <button class="btn" type="submit">Inizia gratuitamente la tua successione <span
+                  class="btn-arrow">→</span></button>
+            </form>
+            <div class="form-message" aria-live="polite"></div>
+            <p class="cta-note">Dopo l’invio vedrai un breve video che ti mostrerà come iniziare.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <img class="footer-logo" src="img/logotipo.svg" alt="EREDO">
+      <div class="footer-links"><button class="footer-link-button" type="button" data-privacy-open>Privacy policy</button></div>
+      <p class="footer-copy">© <span id="year"></span> EREDO. Tutti i diritti riservati.</p>
+    </div>
+  </footer>
+
+  <style>
+    /* Solo per questa copia di confronto: rende visibile inline il contenuto della privacy senza JS */
+    .privacy-modal{ position:static !important; padding:40px 0 !important; }
+    .privacy-backdrop{ display:none !important; }
+    .privacy-dialog{ opacity:1 !important; transform:none !important; max-height:none !important; overflow:visible !important; margin:0 auto; }
+    /* Solo per questa copia di confronto: disattiva il fade-in on-scroll, che con molti iframe
+       caricati insieme puo' restare bloccato a opacita' zero */
+    .reveal{ opacity:1 !important; transform:none !important; }
+  </style>
+  <div class="privacy-modal" id="privacy-modal">
+    <div class="privacy-backdrop" data-privacy-close></div>
+    <section class="privacy-dialog" role="dialog" aria-modal="true" aria-labelledby="privacy-title" tabindex="-1">
+      <header class="privacy-head">
+        <h2 id="privacy-title">Informativa privacy</h2>
+        <button class="privacy-close" type="button" aria-label="Chiudi l’informativa privacy" data-privacy-close>×</button>
+      </header>
+      <div class="privacy-content">
+        <p class="privacy-meta">Informativa ai sensi dell’art. 13 del Regolamento (UE) 2016/679 — ultimo aggiornamento: 29 luglio 2026.</p>
+
+        <h3>1. Titolare del trattamento</h3>
+        <p>Il titolare del trattamento è <span class="privacy-placeholder">[RAGIONE SOCIALE / TITOLARE DEL TRATTAMENTO]</span>, con sede in <span class="privacy-placeholder">[SEDE LEGALE]</span>. Per richieste relative alla protezione dei dati personali puoi scrivere a <span class="privacy-placeholder">[EMAIL PRIVACY]</span>.</p>
+
+        <h3>2. Dati raccolti</h3>
+        <p>Attraverso il modulo presente su questa pagina raccogliamo nome, cognome, indirizzo email e numero di telefono. Possiamo inoltre trattare i dati tecnici strettamente necessari alla trasmissione della richiesta, come data e ora dell’invio e informazioni di sicurezza generate dai sistemi utilizzati.</p>
+
+        <h3>3. Finalità e base giuridica</h3>
+        <p>Usiamo i dati per ricevere e gestire la tua richiesta, consentirti di proseguire verso il contenuto introduttivo di EREDO, contattarti in relazione alla richiesta inviata e fornirti le informazioni necessarie a valutare il percorso EREDO.</p>
+        <p>Il trattamento è necessario per dare seguito a una tua richiesta e adottare misure precontrattuali su tua iniziativa, ai sensi dell’art. 6, par. 1, lett. b) del GDPR. La presa visione dell’informativa non costituisce consenso a ricevere comunicazioni promozionali. Eventuali attività di marketing richiederanno, ove necessario, un consenso separato e facoltativo.</p>
+
+        <h3>4. Conferimento dei dati</h3>
+        <p>I campi indicati nel modulo sono necessari per gestire correttamente la richiesta. Se non li fornisci, non potremo trasmettere il modulo e ricontattarti. Puoi comunque consultare liberamente le altre sezioni informative del sito.</p>
+
+        <h3>5. Modalità di trattamento e destinatari</h3>
+        <p>I dati sono trattati con strumenti elettronici e misure organizzative adeguate. Possono accedervi il personale autorizzato e fornitori tecnici che supportano il funzionamento del sito, l’automazione del modulo e la gestione delle richieste, nominati responsabili del trattamento quando richiesto. Il modulo utilizza Make per trasmettere i dati al flusso di gestione della richiesta.</p>
+        <p>I dati non sono diffusi né venduti e non sono utilizzati per decisioni basate esclusivamente su trattamenti automatizzati che producano effetti giuridici o analogamente significativi.</p>
+
+        <h3>6. Trasferimenti fuori dallo Spazio Economico Europeo</h3>
+        <p>Qualora un fornitore tecnico tratti dati fuori dallo Spazio Economico Europeo, il trasferimento avverrà nel rispetto del GDPR, sulla base di una decisione di adeguatezza o di garanzie appropriate, come le clausole contrattuali standard della Commissione europea, ove applicabili.</p>
+
+        <h3>7. Conservazione</h3>
+        <p>I dati saranno conservati per il tempo necessario a gestire la richiesta e l’eventuale rapporto successivo, e comunque per <span class="privacy-placeholder">[PERIODO DI CONSERVAZIONE DA DEFINIRE]</span>, fatti salvi eventuali obblighi di legge o esigenze di tutela dei diritti del titolare.</p>
+
+        <h3>8. I tuoi diritti</h3>
+        <p>Nei casi previsti dal GDPR puoi chiedere l’accesso ai dati, la rettifica, la cancellazione, la limitazione del trattamento, la portabilità e opporti al trattamento. Se un trattamento si basa sul consenso, puoi revocarlo in qualsiasi momento senza pregiudicare la liceità del trattamento precedente.</p>
+        <p>Puoi esercitare i tuoi diritti scrivendo a <span class="privacy-placeholder">[EMAIL PRIVACY]</span>. Hai inoltre il diritto di proporre reclamo al <a href="https://www.garanteprivacy.it/diritti/come-agire-per-tutelare-i-tuoi-dati-personali/reclamo" target="_blank" rel="noopener noreferrer">Garante per la protezione dei dati personali</a>.</p>
+
+        <h3>9. Aggiornamenti</h3>
+        <p>Questa informativa può essere aggiornata per riflettere modifiche al servizio o alla normativa. La versione più recente sarà sempre disponibile tramite il collegamento “Privacy policy” nel footer del sito.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Chiudi il menu' : 'Apri il menu');
+      menuToggle.textContent = isOpen ? '×' : '☰';
+    });
+    navLinks.forEach(link => link.addEventListener('click', () => {
+      document.body.classList.remove('menu-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.textContent = '☰';
+    }));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    const phonesStage = document.querySelector('.phones-stage');
+    if (phonesStage) {
+      let swipeFrame;
+      phonesStage.addEventListener('scroll', () => {
+        cancelAnimationFrame(swipeFrame);
+        swipeFrame = requestAnimationFrame(() => {
+          phonesStage.classList.toggle('has-swiped', phonesStage.scrollLeft > 12);
+        });
+      }, { passive: true });
+    }
+
+    const form = document.querySelector('.email-form');
+    const formMessage = document.querySelector('.form-message');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = {
+        nome: form.nome.value.trim(),
+        cognome: form.cognome.value.trim(),
+        email: form.email.value.trim(),
+        telefono: form.telefono.value.trim(),
+        pagina: 'Landing EREDO'
+      };
+      if (!data.nome || !data.cognome || !data.telefono || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !form.privacy_read.checked) {
+        formMessage.textContent = 'Completa correttamente tutti i campi.';
+        formMessage.style.color = '#ffe0df';
+        return;
+      }
+      form.setAttribute('aria-busy', 'true');
+      formMessage.textContent = 'Invio in corso…';
+      formMessage.style.color = '#e9ddb9';
+      try {
+        await fetch('https://hook.eu2.make.com/wasrsc8g9qyrokemass8ylig1px5iyvv', {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(data),
+          keepalive: true
+        });
+        window.location.href = 'squeeze.html';
+      } catch (error) {
+        form.removeAttribute('aria-busy');
+        formMessage.textContent = 'Non è stato possibile inviare i dati. Riprova tra poco.';
+        formMessage.style.color = '#ffe0df';
+      }
+    });
+
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyDialog = privacyModal.querySelector('.privacy-dialog');
+    let privacyLastFocus = null;
+    let privacyCloseTimer;
+
+    const openPrivacy = () => {
+      clearTimeout(privacyCloseTimer);
+      privacyLastFocus = document.activeElement;
+      privacyModal.hidden = false;
+      document.body.classList.add('modal-open');
+      requestAnimationFrame(() => {
+        privacyModal.classList.add('is-open');
+        privacyDialog.focus();
+      });
+    };
+
+    const closePrivacy = () => {
+      privacyModal.classList.remove('is-open');
+      document.body.classList.remove('modal-open');
+      privacyCloseTimer = setTimeout(() => {
+        privacyModal.hidden = true;
+        if (privacyLastFocus) privacyLastFocus.focus();
+      }, 250);
+    };
+
+    document.querySelectorAll('[data-privacy-open]').forEach(button => button.addEventListener('click', openPrivacy));
+    privacyModal.querySelectorAll('[data-privacy-close]').forEach(button => button.addEventListener('click', closePrivacy));
+    document.addEventListener('keydown', event => {
+      if (privacyModal.hidden) return;
+      if (event.key === 'Escape') closePrivacy();
+      if (event.key === 'Tab') {
+        const focusable = [...privacyDialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
