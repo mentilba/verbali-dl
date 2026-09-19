@@ -1,0 +1,514 @@
+<title>Monts Territorio Digitale</title>
+<meta name="description" content="Prima consegna: architettura, wireframe, design system e fattibilità per l'atlante digitale Monts, prima del prototipo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde-scuro:#434430;
+    --verde-chiaro:#696E4C;
+    --bronzo:#A26C30;
+    --roccia:#2A2A2A;
+    --calce:#F2EDE6;
+
+    --bg:var(--calce);
+    --surface:#ffffff;
+    --text:var(--roccia);
+    --text-muted:#5c5c56;
+    --line:rgba(42,42,42,0.16);
+    --line-soft:rgba(42,42,42,0.09);
+    --brand:var(--verde-scuro);
+    --accent:var(--bronzo);
+    --tag-rule-bg:rgba(67,68,48,0.10);
+    --tag-rule-fg:var(--verde-scuro);
+    --tag-ext-bg:rgba(162,108,48,0.12);
+    --tag-ext-fg:#7a4f22;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:var(--roccia);
+      --surface:#302f2b;
+      --text:var(--calce);
+      --text-muted:#b9b6ac;
+      --line:rgba(242,237,230,0.18);
+      --line-soft:rgba(242,237,230,0.09);
+      --brand:var(--verde-chiaro);
+      --tag-rule-bg:rgba(105,110,76,0.22);
+      --tag-rule-fg:#c9cdb4;
+      --tag-ext-bg:rgba(162,108,48,0.22);
+      --tag-ext-fg:#e0b483;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:var(--roccia);
+    --surface:#302f2b;
+    --text:var(--calce);
+    --text-muted:#b9b6ac;
+    --line:rgba(242,237,230,0.18);
+    --line-soft:rgba(242,237,230,0.09);
+    --brand:var(--verde-chiaro);
+    --tag-rule-bg:rgba(105,110,76,0.22);
+    --tag-rule-fg:#c9cdb4;
+    --tag-ext-bg:rgba(162,108,48,0.22);
+    --tag-ext-fg:#e0b483;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin-inline:auto;padding-inline:24px}
+  @media (max-width:640px){.wrap{padding-inline:16px}}
+  a{color:inherit}
+  h1,h2,h3,h4{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance;margin:0}
+  p{margin:0;line-height:1.6}
+  .mono{font-family:"IBM Plex Mono",monospace}
+
+  /* ---------- doc header ---------- */
+  .doc-header{background:var(--verde-scuro);color:var(--calce);padding-block:48px 40px;border-bottom:3px solid var(--bronzo)}
+  .doc-eyebrow{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--bronzo);margin-bottom:14px}
+  .doc-header h1{font-size:clamp(1.8rem,4.4vw,2.7rem);color:var(--calce)}
+  .doc-header .sub{margin-top:14px;max-width:56ch;font-size:15px;color:#d6d4c6;font-weight:500;line-height:1.65}
+  .doc-nav{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:28px}
+  .doc-nav a{font-family:"IBM Plex Mono",monospace;font-size:11.5px;text-decoration:none;color:#c7c5b6;border-bottom:1px solid transparent}
+  .doc-nav a:hover,.doc-nav a:focus-visible{color:var(--calce);border-bottom-color:var(--bronzo)}
+
+  /* ---------- generic section ---------- */
+  section{padding-block:52px;border-bottom:1px solid var(--line)}
+  .sec-num{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;color:var(--bronzo);letter-spacing:0.1em;margin-bottom:10px;display:block}
+  section h2{font-size:clamp(1.3rem,2.8vw,1.7rem);color:var(--text);margin-bottom:18px}
+  .lede{font-size:15px;color:var(--text-muted);max-width:62ch;line-height:1.7;margin-bottom:28px}
+  .lede + .lede{margin-top:-16px}
+
+  .tag{
+    display:inline-flex;align-items:center;font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:3px;white-space:nowrap;
+  }
+  .tag-rule{background:var(--tag-rule-bg);color:var(--tag-rule-fg)}
+  .tag-ext{background:var(--tag-ext-bg);color:var(--tag-ext-fg)}
+
+  /* ---------- note box (palette decision) ---------- */
+  .note{
+    background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--bronzo);
+    padding:20px 22px;border-radius:2px;
+  }
+  .note .note-label{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--bronzo);margin-bottom:10px;display:block}
+  .note p{font-size:14px;color:var(--text-muted);line-height:1.7}
+  .note p + p{margin-top:10px}
+  .note strong{color:var(--text);font-weight:600}
+
+  /* ---------- IA chapter list ---------- */
+  .chapters{display:flex;flex-direction:column}
+  .chapter{
+    display:grid;grid-template-columns:56px 1fr;gap:18px;
+    padding-block:20px;border-top:1px solid var(--line-soft);
+  }
+  .chapter:first-child{border-top:none}
+  .chapter-n{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13px;color:var(--bronzo);padding-top:3px}
+  .chapter h3{font-size:15px;letter-spacing:0.02em;color:var(--text);margin-bottom:6px}
+  .chapter .why{font-size:13.5px;color:var(--text-muted);line-height:1.65;max-width:60ch}
+  .chapter .why b{color:var(--text);font-weight:600}
+
+  /* ---------- wireframe blocks ---------- */
+  .frame{
+    border:1.5px dashed var(--line);border-radius:2px;background:var(--surface);
+    padding:14px;margin-bottom:14px;
+  }
+  .frame-label{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;display:block;
+  }
+  .fb{
+    border:1px dashed var(--line);background:var(--line-soft);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:10px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--text-muted);
+    letter-spacing:0.03em;min-height:44px;
+  }
+  .fb.x::before{content:'';}
+  .fb-stack{display:flex;flex-direction:column;gap:6px}
+  .fb-row{display:flex;gap:6px}
+  .fb-row > .fb{flex:1}
+
+  .wf-desktop .fb.hero{min-height:190px;background:
+      repeating-linear-gradient(135deg, var(--line-soft), var(--line-soft) 8px, transparent 8px, transparent 16px);
+    flex-direction:column;gap:4px}
+  .wf-desktop .fb.hero .big{font-family:"Oswald",sans-serif;font-weight:700;font-size:13px;color:var(--text);text-transform:uppercase}
+  .wf-mobile{max-width:300px;margin-inline:auto}
+  .wf-mobile .fb.hero{min-height:260px;background:
+      repeating-linear-gradient(135deg, var(--line-soft), var(--line-soft) 8px, transparent 8px, transparent 16px);
+    flex-direction:column;gap:4px}
+
+  /* ---------- interaction map table ---------- */
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+  thead th{
+    text-align:left;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:10.5px;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);
+    padding:0 12px 10px 0;border-bottom:1px solid var(--line);
+  }
+  tbody td{padding:12px 12px 12px 0;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--text)}
+  tbody tr:last-child td{border-bottom:none}
+  td.muted{color:var(--text-muted)}
+  td .mono{font-size:12px;color:var(--text-muted)}
+
+  .feas{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;font-family:"IBM Plex Mono",monospace;
+    font-weight:700;font-size:11px;background:var(--verde-scuro);color:var(--calce);
+  }
+  .feas.b{background:var(--bronzo)}
+  .feas.c{background:#7a5230}
+  .feas.d{background:var(--roccia)}
+
+  /* ---------- design system subsections ---------- */
+  .dsys-block{padding-block:22px;border-top:1px solid var(--line-soft)}
+  .dsys-block:first-child{border-top:none;padding-top:0}
+  .dsys-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .dsys-head h3{font-size:14px;letter-spacing:0.04em;color:var(--text)}
+  .dsys-block p{font-size:13.5px;color:var(--text-muted);line-height:1.7;max-width:64ch}
+  .dsys-block p + p{margin-top:8px}
+  .dsys-block ul{margin:8px 0 0;padding-left:18px;font-size:13.5px;color:var(--text-muted);line-height:1.75}
+  .dsys-block li b{color:var(--text);font-weight:600}
+
+  .swatch-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .swatch{
+    display:flex;flex-direction:column;width:112px;border:1px solid var(--line);border-radius:2px;overflow:hidden;
+  }
+  .swatch .chip{height:54px}
+  .swatch .meta{padding:7px 8px;background:var(--surface)}
+  .swatch .meta .name{font-size:10.5px;font-weight:600;color:var(--text)}
+  .swatch .meta .hex{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--text-muted)}
+
+  .type-sample{border:1px solid var(--line);border-radius:2px;padding:16px 18px;background:var(--surface);margin-top:12px}
+  .type-sample .role{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--bronzo);margin-bottom:8px;display:block}
+  .type-sample .display{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;letter-spacing:0.01em;color:var(--text)}
+  .type-sample .body{font-family:"IBM Plex Sans",sans-serif;font-size:15px;color:var(--text);margin-top:6px}
+  .type-sample .data{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--text-muted);margin-top:6px}
+
+  /* ---------- checklist ---------- */
+  .checklist{display:flex;flex-direction:column;gap:0}
+  .check-item{
+    display:grid;grid-template-columns:20px 1fr;gap:10px;padding-block:11px;
+    border-top:1px solid var(--line-soft);font-size:13.5px;
+  }
+  .check-item:first-child{border-top:none}
+  .check-item .box{width:14px;height:14px;border:1.5px solid var(--text-muted);border-radius:2px;margin-top:2px}
+  .check-item b{color:var(--text);font-weight:600}
+  .check-item span.desc{color:var(--text-muted);display:block;font-size:12.5px;margin-top:2px}
+
+  /* ---------- closing ---------- */
+  .closing{background:var(--verde-scuro);color:var(--calce);padding-block:44px}
+  .closing h2{color:var(--calce);font-size:clamp(1.2rem,2.6vw,1.6rem);max-width:26ch}
+  .closing p{color:#d6d4c6;font-size:14.5px;line-height:1.7;margin-top:14px;max-width:60ch}
+  .closing .steps{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .closing .step{display:flex;gap:12px;font-size:13.5px;color:#e4e2d5}
+  .closing .step .n{font-family:"IBM Plex Mono",monospace;color:var(--bronzo);font-weight:600}
+</style>
+
+<header class="doc-header">
+  <div class="wrap">
+    <span class="doc-eyebrow">Monts · Prima consegna &mdash; brief &sect;29</span>
+    <h1>Monts, il territorio come atlante digitale</h1>
+    <p class="sub">Architettura, wireframe, mappa delle interazioni, design system e fattibilit&agrave; tecnica &mdash; prima di costruire una sola riga dell'esperienza finale, come richiesto dal brief.</p>
+    <nav class="doc-nav">
+      <a href="#nota-palette">Nota palette</a>
+      <a href="#architettura">1&middot; Architettura</a>
+      <a href="#wireframe">2&ndash;3&middot; Wireframe</a>
+      <a href="#interazioni">4&middot; Interazioni</a>
+      <a href="#design-system">5&middot; Design system</a>
+      <a href="#asset">8&middot; Asset richiesti</a>
+      <a href="#fattibilita">9&middot; Fattibilit&agrave;</a>
+      <a href="#prossimo-passo">Prossimo passo</a>
+    </nav>
+  </div>
+</header>
+
+<section id="nota-palette">
+  <div class="wrap">
+    <span class="sec-num">Prerequisito &mdash; &sect;14</span>
+    <h2>Quale Brand Book &egrave; autorevole</h2>
+    <div class="note">
+      <span class="note-label">Decisione presa in questa consegna</span>
+      <p>Nella conversazione sono comparse due palette diverse: quella del PDF <b>&ldquo;Guida colore&rdquo;</b> (Verde scuro <span class="mono">#434430</span>, Verde chiaro <span class="mono">#696E4C</span>, Bronzo <span class="mono">#A26C30</span>, Roccia <span class="mono">#2A2A2A</span>, Calce <span class="mono">#F2EDE6</span>) e una seconda card (&ldquo;Verde Versante&rdquo;, &ldquo;Roccia Profonda&rdquo;&hellip;) senza documento di regole associato.</p>
+      <p>Ho provato a campionare i pixel del file logo fornito per arbitrare, ma quel PNG &egrave; un <b>render fotografico testurizzato</b> (luce, materiale, compressione), non un vettoriale piatto: i valori che restituisce non sono affidabili come specifica.</p>
+      <p><strong>Uso quindi il PDF Guida colore come Brand Rule</strong>: &egrave; l'unico dei due con valori HEX dichiarati esplicitamente e regole d'uso scritte (quale colore su quale fondo, cosa evitare). La seconda card resta un'esplorazione non adottata in questa consegna &mdash; se &egrave; in realt&agrave; l'aggiornamento corretto, va confermato con un documento equivalente prima che diventi la base del design system.</p>
+    </div>
+  </div>
+</section>
+
+<section id="architettura">
+  <div class="wrap">
+    <span class="sec-num">1 &mdash; Architettura dell'informazione</span>
+    <h2>La sequenza concettuale, capitolo per capitolo</h2>
+    <p class="lede">Non un menu (Chi siamo &middot; Servizi &middot; Progetti), ma una trasformazione: da paesaggio a sistema, da sistema a mappa, da mappa a progetto. Ogni capitolo esiste perch&eacute; prepara il successivo.</p>
+
+    <div class="chapters">
+      <div class="chapter">
+        <span class="chapter-n">01</span>
+        <div>
+          <h3>Il Territorio</h3>
+          <p class="why">Una fotografia editoriale, non da cartolina. <b>La natura disegna il territorio &rarr; Monts disegna la sua carta umana.</b> Chiarisce il posizionamento in 2 secondi, prima di qualunque spiegazione.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">02</span>
+        <div>
+          <h3>Imparare a vedere</h3>
+          <p class="why">La stessa immagine resta ferma: compaiono annotazioni sottili (acqua, versante, connessione, stabilit&agrave;). <b>Il momento chiave</b>: il visitatore capisce che Monts sovrappone una lente tecnica alla realt&agrave;, prima ancora di leggere una parola su &ldquo;chi siamo&rdquo;.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">03</span>
+        <div>
+          <h3>La Carnia come prova</h3>
+          <p class="why">La lettura del paesaggio si trasforma in cartografia. <b>28 Comuni. Tutta la Carnia.</b> &egrave; una prova, non uno slogan: radica il posizionamento in un territorio verificabile.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">04</span>
+        <div>
+          <h3>La domanda</h3>
+          <p class="why">Pausa radicale, quasi nero. <b>A cosa serve l'ingegneria?</b> Crea tensione prima di introdurre il film &mdash; il visitatore deve volerlo guardare, non subirlo in autoplay.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">05</span>
+        <div>
+          <h3>Il film Monts</h3>
+          <p class="why">Un fermo immagine, un controllo minimo (&ldquo;Guarda &mdash; 18 sec&rdquo;). Attivato esplicitamente, non imposto: coerente con la regola &ldquo;niente hero video in autoplay&rdquo;.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">06</span>
+        <div>
+          <h3>Dal cinema alla mappa</h3>
+          <p class="why">L'ultimo fotogramma aereo del film <b>diventa</b> l'interfaccia successiva. Cinema &rarr; cartografia in una transizione continua, senza reset dell'esperienza.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">07</span>
+        <div>
+          <h3>La mappa viva</h3>
+          <p class="why">Acqua &middot; Versanti &middot; Protezioni &middot; Connessioni non sono voci di menu ma <b>livelli del territorio</b>. I progetti si scoprono geograficamente, non si sfogliano come portfolio.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">08</span>
+        <div>
+          <h3>Cosa sta facendo il territorio</h3>
+          <p class="why">Sostituisce la sezione &ldquo;Servizi&rdquo; con le forze fisiche che le discipline Monts affrontano: scorre &middot; scende &middot; spinge &middot; cade &middot; collega. &Egrave; il punto di accesso alle discipline, non un elenco di competenze.</p>
+        </div>
+      </div>
+      <div class="chapter">
+        <span class="chapter-n">09</span>
+        <div>
+          <h3>Il progetto come caso studio territoriale</h3>
+          <p class="why">Territorio &rarr; forza &rarr; problema &rarr; intervento &rarr; territorio dopo. L'intervento <b>arretra visivamente</b> nell'ultimo passo: l'opera riuscita &egrave; quella che si vede meno.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="wireframe">
+  <div class="wrap">
+    <span class="sec-num">2&ndash;3 &mdash; Wireframe</span>
+    <h2>Home desktop e mobile</h2>
+    <p class="lede">Schema di gerarchia e ritmo, non un mockup visivo &mdash; i riquadri tratteggiati indicano dove va un asset reale (foto, mappa, film), non il suo contenuto finale.</p>
+
+    <div class="frame wf-desktop">
+      <span class="frame-label">Desktop &middot; 1440px &middot; capitoli 01&ndash;03</span>
+      <div class="fb-stack">
+        <div class="fb hero"><span class="big">01 &middot; Fotografia territorio, full-bleed</span><span>La natura disegna il territorio &rarr; Monts disegna la sua carta umana</span></div>
+        <div class="fb-row">
+          <div class="fb" style="flex:2">Indice territoriale: Acqua &middot; Versanti &middot; Protezioni &middot; Connessioni</div>
+          <div class="fb" style="flex:1">Esplora il territorio &darr;</div>
+        </div>
+        <div class="fb hero" style="min-height:150px"><span class="big">02 &middot; Stessa immagine, annotazioni sottili</span><span>linee acqua/versante/connessione + quota, pendenza, coordinate [placeholder]</span></div>
+        <div class="fb hero" style="min-height:170px"><span class="big">03 &middot; Trasformazione in cartografia</span><span>28 Comuni. Tutta la Carnia &mdash; territori che si illuminano progressivamente</span></div>
+      </div>
+    </div>
+
+    <div class="frame wf-mobile">
+      <span class="frame-label">Mobile &middot; 390px</span>
+      <div class="fb-stack">
+        <div class="fb hero"><span class="big">01 &middot; Foto full-screen</span><span>Statement in due righe, indice territoriale sotto</span></div>
+        <div class="fb" style="min-height:36px">Esplora &darr;</div>
+        <div class="fb hero" style="min-height:190px"><span class="big">02 &middot; Tap per annotare</span><span>invece di scroll-reveal: tocco singolo rivela un'etichetta alla volta</span></div>
+        <div class="fb hero" style="min-height:200px"><span class="big">03 &middot; Mappa Carnia</span><span>swipe verticale tra comuni/forze, pinch solo dove tecnicamente utile</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="interazioni">
+  <div class="wrap">
+    <span class="sec-num">4 &mdash; Mappa delle interazioni</span>
+    <h2>Cosa succede a ogni gesto</h2>
+    <p class="lede">Limitata ai tre capitoli del primo prototipo (01&ndash;03); il resto dell'esperienza segue lo stesso principio una volta validato questo nucleo.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Gesto</th><th>Capitolo</th><th>Comportamento</th><th>Nota</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="mono">scroll</span></td>
+            <td class="muted">01 &rarr; 02</td>
+            <td>La fotografia resta ferma; iniziano ad apparire le etichette tecniche una alla volta, in ordine acqua &middot; versante &middot; connessione &middot; stabilit&agrave;.</td>
+            <td class="muted">Nessun cambio di sezione visibile: stesso oggetto, nuova lettura.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">scroll</span></td>
+            <td class="muted">02 &rarr; 03</td>
+            <td>Le linee di annotazione si aggregano in tracciati cartografici; la fotografia perde saturazione mentre la mappa prende forma.</td>
+            <td class="muted">Transizione morph, non un cut netto tra immagine e mappa.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">hover / focus</span></td>
+            <td class="muted">03</td>
+            <td>Ogni comune (quando i dati saranno forniti) si illumina singolarmente; il resto della Carnia resta in bassa opacit&agrave;.</td>
+            <td class="muted">Richiede confini comunali reali &mdash; vedi &sect;8 Asset richiesti.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">click / tap</span></td>
+            <td class="muted">01</td>
+            <td>&ldquo;Esplora il territorio &darr;&rdquo; scrolla program­maticamente al capitolo 02 con la stessa curva di easing dello scroll naturale.</td>
+            <td class="muted">Nessun salto istantaneo: mantiene la sensazione di continuit&agrave;.</td>
+          </tr>
+          <tr>
+            <td><span class="mono">tap</span> (mobile)</td>
+            <td class="muted">02</td>
+            <td>Sostituisce lo scroll-reveal: un tocco rivela l'etichetta successiva, per dare controllo esplicito su un gesto che su desktop &egrave; continuo.</td>
+            <td class="muted">Evita reveal accidentali durante lo scroll verticale naturale del telefono.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="design-system">
+  <div class="wrap">
+    <span class="sec-num">5 &mdash; Design system digitale Monts</span>
+    <h2>Regola di brand vs estensione digitale</h2>
+    <p class="lede"><span class="tag tag-rule">Regola brand</span> = definito nel PDF Guida colore. <span class="tag tag-ext">Estensione digitale</span> = necessario per l'esperienza interattiva, non specificato dal Brand Book, proposto qui esplicitamente come tale.</p>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Colore</h3><span class="tag tag-rule">Regola brand</span></div>
+      <p>I cinque colori del PDF, con il ruolo che il documento assegna loro. Il verde naturale della Carnia deve venire dalla fotografia, non dall'interfaccia: l'UI resta minerale, non &ldquo;un sito verde&rdquo;.</p>
+      <div class="swatch-row">
+        <div class="swatch"><div class="chip" style="background:#434430"></div><div class="meta"><div class="name">Verde scuro</div><div class="hex">#434430</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#696E4C"></div><div class="meta"><div class="name">Verde chiaro</div><div class="hex">#696E4C</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#A26C30"></div><div class="meta"><div class="name">Bronzo</div><div class="hex">#A26C30</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#2A2A2A"></div><div class="meta"><div class="name">Roccia</div><div class="hex">#2A2A2A</div></div></div>
+        <div class="swatch"><div class="chip" style="background:#F2EDE6;border-bottom:1px solid var(--line)"></div><div class="meta"><div class="name">Calce</div><div class="hex">#F2EDE6</div></div></div>
+      </div>
+    </div>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Tipografia</h3><span class="tag tag-ext">Estensione digitale proposta</span></div>
+      <p>Il Brand Book non specifica font per schermo (solo il lettering del logo, disegnato). Propongo di riusare il sistema gi&agrave; validato sulla home Monts esistente, per continuit&agrave; tra le proprie propriet&agrave; digitali: <b>Oswald</b> per i titoli editoriali (condensato, stesso registro del lettering del logo), <b>IBM Plex Sans</b> per il corpo testo, <b>IBM Plex Mono</b> per ogni annotazione tecnica &mdash; quote, coordinate, etichette di mappa.</p>
+      <div class="type-sample">
+        <span class="role">Titolo editoriale &middot; Oswald 700</span>
+        <div class="display">A cosa serve l'ingegneria?</div>
+        <span class="role" style="margin-top:14px">Corpo testo &middot; IBM Plex Sans 400</span>
+        <div class="body">La Carnia &egrave; il territorio in cui siamo cresciuti e dove ci siamo fatti le ossa.</div>
+        <span class="role" style="margin-top:14px">Annotazione tecnica &middot; IBM Plex Mono 500</span>
+        <div class="data">QUOTA [PLACEHOLDER m] &middot; PENDENZA [PLACEHOLDER&deg;] &middot; COORD [PLACEHOLDER]</div>
+      </div>
+    </div>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Logo</h3><span class="tag tag-rule">Regola brand</span></div>
+      <ul>
+        <li><b>Solo l'SVG ufficiale fornito</b>, mai ridisegnato o approssimato.</li>
+        <li>Nei capitoli 01&ndash;03 resta contenuto: monogramma o wordmark piccolo in header, mai protagonista della prima schermata &mdash; il protagonista &egrave; il territorio.</li>
+        <li>Su fotografia complessa (capitolo 01): campo Calce o Verde scuro pieno dietro al logo, come da regola 04 del PDF &mdash; mai il logo direttamente sopra il paesaggio senza fondo.</li>
+      </ul>
+    </div>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Cartografia e annotazioni tecniche</h3><span class="tag tag-ext">Estensione digitale proposta</span></div>
+      <ul>
+        <li><b>Linee</b>: 1&ndash;1.5px, colore Bronzo per elementi attivi/selezionati, Roccia al 40% per elementi latenti.</li>
+        <li><b>Etichette</b>: sempre in IBM Plex Mono maiuscolo, 10&ndash;11px, letter-spacing 0.08em &mdash; mai la stessa dimensione del testo editoriale, per mantenere il contrasto &ldquo;dichiarazione enorme vs. annotazione minuscola&rdquo; richiesto dal brief.</li>
+        <li><b>Stato selezionato/non selezionato</b>: un livello attivo (es. Acqua) resta a piena opacit&agrave; e saturazione; gli altri scendono a ~25% di opacit&agrave; e desaturano leggermente.</li>
+        <li><b>Dati non verificati</b>: sempre tra parentesi quadre, es. <span class="mono">[QUOTA DA VERIFICARE]</span> &mdash; mai un numero plausibile ma inventato.</li>
+      </ul>
+    </div>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Fotografia</h3><span class="tag tag-ext">Estensione digitale proposta</span></div>
+      <ul>
+        <li>Territorio abitato e reale: vegetazione, acqua, roccia, eventualmente una strada &mdash; mai la vetta da cartolina.</li>
+        <li>Crop editoriale, non panoramico da agenzia turistica.</li>
+        <li>Da evitare esplicitamente: ingegneri con caschi in posa, persone che indicano planimetrie, cantieri generici, droni spettacolari.</li>
+      </ul>
+    </div>
+
+    <div class="dsys-block">
+      <div class="dsys-head"><h3>Motion</h3><span class="tag tag-ext">Estensione digitale proposta</span></div>
+      <p>Vocabolario ammesso: <b>tracciare, rivelare, misurare, seguire, stratificare, cambiare scala</b>. Il movimento dominante &egrave; un cambio di scala &mdash; vicino &rarr; largo &rarr; dall'alto &rarr; mappa &mdash; mai un'animazione decorativa senza corrispondenza in un cambiamento di lettura. <span class="mono">prefers-reduced-motion</span> disattiva le transizioni di scala, non il contenuto.</p>
+    </div>
+  </div>
+</section>
+
+<section id="asset">
+  <div class="wrap">
+    <span class="sec-num">8 &mdash; Asset richiesti</span>
+    <h2>Cosa serve da Monts prima del passo successivo</h2>
+    <p class="lede">Nessuna voce qui verr&agrave; sostituita con un'invenzione plausibile: dove manca il dato reale, il prototipo user&agrave; un placeholder dichiarato.</p>
+    <div class="checklist">
+      <div class="check-item"><span class="box"></span><div><b>Fotografia hero (capitolo 01)</b><span class="desc">Territorio Carnia reale, non stock &mdash; ad alta risoluzione, orientamento sia orizzontale che verticale per il crop mobile.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Confini dei 28 Comuni della Carnia</b><span class="desc">Dato geografico (GeoJSON o equivalente) per disegnare la mappa reale, non un contorno approssimato a mano.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Quota, pendenza, coordinate reali</b><span class="desc">Anche solo per 2&ndash;3 punti del capitolo 02, per sostituire i placeholder <span class="mono">[QUOTA PLACEHOLDER]</span>.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Il film Monts</b><span class="desc">Ripresa unica, ciclista in Carnia, come descritto al &sect;7 del brief &mdash; da produrre separatamente, non generabile qui.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Dati progetto reali</b><span class="desc">Almeno un progetto completo (luogo, forza fisica coinvolta, problema, intervento, foto/sezioni) per costruire il primo caso studio secondo lo schema del &sect;11.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Logo in SVG</b><span class="desc">Il file fornito finora &egrave; un PNG raster (render fotografico); serve il vettoriale originale per un uso pulito a ogni scala.</span></div></div>
+      <div class="check-item"><span class="box"></span><div><b>Conferma palette</b><span class="desc">Quale delle due palette viste in questa conversazione &egrave; quella corrente &mdash; vedi nota a inizio pagina.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="fattibilita" style="border-bottom:none">
+  <div class="wrap">
+    <span class="sec-num">9 &mdash; Fattibilit&agrave; tecnica</span>
+    <h2>Classificazione delle interazioni principali</h2>
+    <p class="lede">
+      <span class="feas">A</span> diretto in browser &middot;
+      <span class="feas b">B</span> richiede SVG/dati preparati &middot;
+      <span class="feas c">C</span> richiede video pre-renderizzato &middot;
+      <span class="feas d">D</span> richiede WebGL/3D
+    </p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Interazione</th><th>Capitolo</th><th>Classe</th><th>Nota</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Reveal annotazioni su scroll</td><td class="muted">02</td><td><span class="feas">A</span></td><td class="muted">CSS + intersection observer, nessuna dipendenza pesante.</td></tr>
+          <tr><td>Trasformazione foto &rarr; mappa</td><td class="muted">03</td><td><span class="feas b">B</span></td><td class="muted">Serve un tracciato SVG dei confini comunali preparato in anticipo, non generabile dal solo scroll.</td></tr>
+          <tr><td>Comuni che si illuminano singolarmente</td><td class="muted">03</td><td><span class="feas b">B</span></td><td class="muted">Dipende dal GeoJSON reale richiesto al &sect;8; senza dato, resta uno schema generico.</td></tr>
+          <tr><td>Film con transizione all'ultimo fotogramma</td><td class="muted">05&ndash;06</td><td><span class="feas c">C</span></td><td class="muted">Il fotogramma finale &egrave; girato per funzionare come mappa: va pianificato in fase di ripresa, non solo di montaggio.</td></tr>
+          <tr><td>Cambi di scala tipo &ldquo;drone continuo&rdquo;</td><td class="muted">trasversale</td><td><span class="feas d">D</span> solo se richiesto</td><td class="muted">Evitabile con montaggio video (classe C) nella maggior parte dei casi; il 3D reale si giustifica solo per la mappa viva finale, non per il primo prototipo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="closing" id="prossimo-passo">
+  <div class="wrap">
+    <h2>Prossimo passo: prototipo dei capitoli 01&ndash;03</h2>
+    <p>Come da brief, il prototipo si ferma qui finch&eacute; l'idea centrale non &egrave; validata: <b>Territorio &middot; Imparare a vedere &middot; 28 Comuni</b>. Serve da parte tua:</p>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><span>Confermare quale palette &egrave; quella corrente (nota a inizio pagina).</span></div>
+      <div class="step"><span class="n">2</span><span>Una fotografia reale della Carnia per il capitolo 01 (o l'ok a usare per ora il video montagna gi&agrave; caricato in chat, dichiarato come placeholder).</span></div>
+      <div class="step"><span class="n">3</span><span>Il file SVG del logo, se disponibile, al posto del PNG fotografico.</span></div>
+    </div>
+  </div>
+</div>
