@@ -242,6 +242,9 @@
   }
   .hero-bg{position:absolute;inset:0;z-index:0;background:var(--onyx)}
   .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 60%}
+  @media (max-width:700px){
+    .hero-video{object-fit:contain;object-position:center center}
+  }
   .hero-vignette{
     position:absolute;inset:0;
     background:
