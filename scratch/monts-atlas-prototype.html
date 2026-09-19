@@ -141,6 +141,38 @@
   }
   .commune.lit{fill:rgba(162,108,48,0.28);stroke:var(--bronzo)}
 
+  /* ---------- chapter 04: the pause / the question ---------- */
+  .pause-wrapper{position:relative;height:220vh;background:var(--roccia)}
+  @media (max-width:680px){.pause-wrapper{height:260vh}}
+  .pause-sticky{
+    position:sticky;top:0;height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0 28px;
+  }
+  .pause-marker{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.14em;
+    color:var(--bronzo);margin-bottom:34px;
+    opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease;
+  }
+  .pause-marker.on{opacity:1;transform:translateY(0)}
+  .pause-question{
+    font-size:clamp(2rem,7.2vw,4.6rem);line-height:1.05;color:var(--calce);max-width:16ch;
+    opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease;
+  }
+  .pause-question.on{opacity:1;transform:translateY(0)}
+  .pause-answer{
+    margin-top:40px;font-family:"IBM Plex Sans",sans-serif;font-weight:500;font-size:16px;
+    color:#cfccc0;max-width:34ch;line-height:1.65;
+    opacity:0;transform:translateY(10px);transition:opacity .8s ease,transform .8s ease;
+  }
+  .pause-answer.on{opacity:1;transform:translateY(0)}
+  .pause-hint{
+    margin-top:48px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:0.1em;
+    color:#7d7a70;
+    opacity:0;transition:opacity .8s ease;
+  }
+  .pause-hint.on{opacity:1}
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none!important;animation:none!important}
   }
@@ -216,6 +248,15 @@
   </div>
 </section>
 
+<div class="pause-wrapper" id="pauseWrapper">
+  <div class="pause-sticky">
+    <span class="pause-marker" id="pauseMarker">02 / ABITARE IL TERRITORIO</span>
+    <h2 class="pause-question" id="pauseQuestion">A cosa serve<br>l&rsquo;ingegneria?</h2>
+    <p class="pause-answer" id="pauseAnswer">A permettere all&rsquo;uomo di stare dentro la geografia.</p>
+    <span class="pause-hint" id="pauseHint">IL FILM MONTS &mdash; SEGUE</span>
+  </div>
+</div>
+
 <script>
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -271,6 +312,39 @@
       });
     }, {threshold:0.3});
     io.observe(document.getElementById('carniaSection'));
+  }
+
+  var pauseWrapper = document.getElementById('pauseWrapper');
+  var pauseMarker = document.getElementById('pauseMarker');
+  var pauseQuestion = document.getElementById('pauseQuestion');
+  var pauseAnswer = document.getElementById('pauseAnswer');
+  var pauseHint = document.getElementById('pauseHint');
+
+  if (reduced) {
+    pauseMarker.classList.add('on');
+    pauseQuestion.classList.add('on');
+    pauseAnswer.classList.add('on');
+    pauseHint.classList.add('on');
+  } else {
+    var pTicking = false;
+    function updatePause(){
+      pTicking = false;
+      var rect = pauseWrapper.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var total = pauseWrapper.offsetHeight - vh;
+      var progress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+
+      pauseMarker.classList.toggle('on', progress > 0.06);
+      pauseQuestion.classList.toggle('on', progress > 0.16);
+      pauseAnswer.classList.toggle('on', progress > 0.52);
+      pauseHint.classList.toggle('on', progress > 0.74);
+    }
+    function onPauseScroll(){
+      if (!pTicking) { window.requestAnimationFrame(updatePause); pTicking = true; }
+    }
+    window.addEventListener('scroll', onPauseScroll, {passive:true});
+    window.addEventListener('resize', onPauseScroll);
+    updatePause();
   }
 })();
 </script>
