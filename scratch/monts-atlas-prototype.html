@@ -337,6 +337,62 @@
     color:#7d7a70;max-width:52ch;margin-inline:auto;line-height:1.6;
   }
 
+  /* ---------- chapter 08: territorial forces ---------- */
+  .forces{background:var(--roccia);padding-block:100px 60px;border-top:1px solid var(--line)}
+  .forces-head{max-width:640px;margin:0 auto 70px;padding-inline:28px;text-align:center}
+  .forces-eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.14em;color:var(--bronzo);
+    margin-bottom:18px;
+  }
+  .forces-title{font-size:clamp(1.7rem,4.6vw,2.7rem);color:var(--calce)}
+  .forces-note{
+    margin-top:16px;font-family:"IBM Plex Sans",sans-serif;font-size:13px;color:#a7a498;
+    line-height:1.6;
+  }
+
+  .force-row{
+    max-width:1000px;margin-inline:auto;padding:34px 28px;
+    display:flex;align-items:baseline;gap:28px;flex-wrap:wrap;
+    border-top:1px solid var(--line);
+  }
+  .force-row:last-child{border-bottom:1px solid var(--line)}
+  .force-word{
+    font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:0.01em;
+    font-size:clamp(2.2rem,6.4vw,3.6rem);color:var(--calce);display:flex;align-items:baseline;gap:14px;
+    flex-shrink:0;min-width:280px;
+    opacity:0;transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.3,1);
+  }
+  .force-word .arrow{color:var(--bronzo)}
+  .force-row.in .force-word{opacity:1}
+  .force-row[data-dir="scorre"] .force-word{transform:translateX(-48px)}
+  .force-row[data-dir="scorre"].in .force-word{transform:translateX(0)}
+  .force-row[data-dir="scende"] .force-word{transform:translateY(-30px)}
+  .force-row[data-dir="scende"].in .force-word{transform:translateY(0)}
+  .force-row[data-dir="spinge"] .force-word{transform:translate(-34px,-22px)}
+  .force-row[data-dir="spinge"].in .force-word{transform:translate(0,0)}
+  .force-row[data-dir="cade"] .force-word{transform:translateY(-42px)}
+  .force-row[data-dir="cade"].in .force-word{
+    transform:translateY(0);
+    transition:opacity .5s ease, transform .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  .force-row[data-dir="collega"] .force-word{letter-spacing:0.24em}
+  .force-row[data-dir="collega"].in .force-word{letter-spacing:0.01em;transition:opacity .8s ease, letter-spacing .8s ease}
+
+  .force-detail{flex:1;min-width:220px}
+  .force-domain{
+    font-family:"IBM Plex Sans",sans-serif;font-weight:500;font-size:14.5px;color:var(--calce);
+    opacity:.85;
+  }
+  .force-terms{
+    margin-top:8px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.04em;
+    color:#8f8c80;
+  }
+
+  @media (max-width:640px){
+    .force-row{flex-direction:column;gap:12px;padding-block:26px}
+    .force-word{min-width:0}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none!important;animation:none!important}
   }
@@ -520,6 +576,50 @@
 
     <p class="lm-count" id="lmCount">Seleziona un livello per esplorare gli interventi.</p>
     <p class="lm-note">Confini, posizioni e nomi progetto sono segnaposto: la mappa viva reale va costruita sul GeoJSON dei 28 Comuni e sui dati progetto verificati (&sect;8).</p>
+  </div>
+</section>
+
+<section class="forces" id="forcesSection">
+  <div class="forces-head">
+    <span class="forces-eyebrow">08 &middot; Cosa sta facendo il territorio?</span>
+    <h2 class="forces-title">Non servizi. Forze fisiche.</h2>
+    <p class="forces-note">Il punto di accesso alle discipline Monts, non un sostituto della terminologia tecnica precisa.</p>
+  </div>
+
+  <div class="force-row" data-dir="scorre">
+    <div class="force-word">SCORRE <span class="arrow">&rarr;</span></div>
+    <div class="force-detail">
+      <div class="force-domain">Acqua e sistemi idraulici</div>
+      <div class="force-terms">Drenaggio &middot; canalizzazione &middot; regimazione delle acque</div>
+    </div>
+  </div>
+  <div class="force-row" data-dir="scende">
+    <div class="force-word">SCENDE <span class="arrow">&darr;</span></div>
+    <div class="force-detail">
+      <div class="force-domain">Versanti instabili</div>
+      <div class="force-terms">Movimenti di terreno &middot; consolidamento &middot; monitoraggio del versante</div>
+    </div>
+  </div>
+  <div class="force-row" data-dir="spinge">
+    <div class="force-word">SPINGE <span class="arrow">&searr;</span></div>
+    <div class="force-detail">
+      <div class="force-domain">Suolo e opere di sostegno</div>
+      <div class="force-terms">Contenimento strutturale &middot; muri di sostegno &middot; spinte del terreno</div>
+    </div>
+  </div>
+  <div class="force-row" data-dir="cade">
+    <div class="force-word">CADE <span class="arrow">&darr;</span></div>
+    <div class="force-detail">
+      <div class="force-domain">Roccia e caduta massi</div>
+      <div class="force-terms">Reti paramassi &middot; barriere &middot; protezione attiva e passiva</div>
+    </div>
+  </div>
+  <div class="force-row" data-dir="collega">
+    <div class="force-word">COLLEGA <span class="arrow">&harr;</span></div>
+    <div class="force-detail">
+      <div class="force-domain">Strade, ponti, accessibilit&agrave;</div>
+      <div class="force-terms">Viabilit&agrave; di montagna &middot; attraversamenti &middot; infrastrutture di quota</div>
+    </div>
   </div>
 </section>
 
@@ -751,5 +851,19 @@
     if (!lmMapFrame.contains(e.target)) { hideTooltip(); }
   });
   window.addEventListener('resize', hideTooltip);
+
+  var forceRows = document.querySelectorAll('.force-row');
+  if (reduced) {
+    forceRows.forEach(function(r){ r.classList.add('in'); });
+  } else if ('IntersectionObserver' in window) {
+    var fio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); fio.unobserve(e.target); }
+      });
+    }, {threshold:0.4});
+    forceRows.forEach(function(r){ fio.observe(r); });
+  } else {
+    forceRows.forEach(function(r){ r.classList.add('in'); });
+  }
 })();
 </script>
