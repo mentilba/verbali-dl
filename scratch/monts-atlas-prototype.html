@@ -41,8 +41,8 @@
   @media (max-width:680px){.atlas-index{display:none}}
 
   /* ---------- chapter 01+02: sticky territory ---------- */
-  .territory-wrapper{position:relative;height:560vh}
-  @media (max-width:680px){.territory-wrapper{height:640vh}}
+  .territory-wrapper{position:relative;height:300vh}
+  @media (max-width:680px){.territory-wrapper{height:340vh}}
   .territory-sticky{
     position:sticky;top:0;height:100vh;overflow:hidden;
     display:flex;align-items:flex-end;
@@ -53,6 +53,9 @@
     transition:filter 1.4s ease;
   }
   .territory-sticky.desat .territory-img{filter:saturate(0.35) brightness(0.7)}
+  @media (max-width:680px){
+    .territory-img{object-fit:contain;object-position:center center;background:var(--roccia)}
+  }
   .territory-scrim{
     position:absolute;inset:0;
     background:linear-gradient(180deg, rgba(23,23,22,0.62) 0%, rgba(23,23,22,0.05) 30%, rgba(23,23,22,0.12) 60%, rgba(23,23,22,0.78) 100%);
