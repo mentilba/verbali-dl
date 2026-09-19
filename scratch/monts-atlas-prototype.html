@@ -267,6 +267,76 @@
   }
   .film-lightbox.ended .cine-map-note{opacity:1}
 
+  /* ---------- chapter 07: the living map ---------- */
+  .living-map{background:var(--roccia);padding-block:100px 110px;border-top:1px solid var(--line)}
+  .lm-wrap{max-width:1000px;margin-inline:auto;padding-inline:28px}
+  .lm-eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:0.14em;color:var(--bronzo);
+    margin-bottom:18px;text-align:center;
+  }
+  .lm-title{
+    text-align:center;font-size:clamp(1.6rem,4.4vw,2.6rem);color:var(--calce);max-width:22ch;
+    margin-inline:auto;
+  }
+  .lm-sub{
+    text-align:center;margin-top:16px;font-family:"IBM Plex Sans",sans-serif;font-size:13.5px;
+    color:#a7a498;max-width:48ch;margin-inline:auto;line-height:1.65;
+  }
+
+  .lm-layers{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:38px}
+  .lm-layer-btn{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--calce);background:transparent;border:1px solid rgba(242,237,230,0.28);
+    border-radius:999px;padding:9px 18px;cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease;
+  }
+  .lm-layer-btn .n{opacity:.55;margin-left:6px;font-size:10px}
+  .lm-layer-btn:hover,.lm-layer-btn:focus-visible{border-color:var(--calce)}
+  .lm-layer-btn.active{background:var(--bronzo);border-color:var(--bronzo);color:#241505}
+  .lm-layer-btn.active .n{opacity:.75;color:#241505}
+
+  .lm-map-frame{position:relative;margin-top:44px}
+  .lm-map-frame svg{width:100%;height:auto;display:block}
+  .lm-commune{
+    fill:rgba(242,237,230,0.045);stroke:rgba(242,237,230,0.22);stroke-width:1;stroke-dasharray:3 3;
+    transition:fill .4s ease,stroke .4s ease,opacity .4s ease;
+  }
+  .living-map.filtered .lm-commune{opacity:.35}
+
+  .lm-marker{cursor:pointer}
+  .lm-marker circle.core{
+    fill:#6c6a5e;stroke:var(--roccia);stroke-width:2;
+    transition:fill .3s ease, r .3s ease, opacity .3s ease;
+  }
+  .lm-marker circle.pulse{fill:none;stroke:rgba(242,237,230,0.35);stroke-width:1;opacity:0;transition:opacity .3s ease}
+  .lm-marker{opacity:1;transition:opacity .35s ease}
+  .living-map.filtered .lm-marker{opacity:.16;pointer-events:none}
+  .living-map.filtered .lm-marker.match{opacity:1;pointer-events:auto}
+  .living-map.filtered .lm-marker.match circle.core{fill:var(--bronzo)}
+  .living-map.filtered .lm-marker.match circle.pulse{opacity:1}
+
+  .lm-tooltip{
+    position:absolute;z-index:3;max-width:220px;
+    background:var(--roccia);border:1px solid rgba(242,237,230,0.2);border-radius:2px;
+    padding:12px 14px;transform:translate(-50%,-100%);margin-top:-14px;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .lm-tooltip.show{opacity:1}
+  .lm-tooltip .lbl{
+    font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--bronzo);margin-bottom:4px;
+  }
+  .lm-tooltip .name{font-family:"IBM Plex Sans",sans-serif;font-weight:600;font-size:13px;color:var(--calce)}
+  .lm-tooltip .place{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:#a7a498;margin-top:3px}
+
+  .lm-count{
+    margin-top:18px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:11px;
+    letter-spacing:0.06em;color:#8f8c80;min-height:1.4em;
+  }
+  .lm-note{
+    margin-top:8px;text-align:center;font-family:"IBM Plex Sans",sans-serif;font-size:12px;
+    color:#7d7a70;max-width:52ch;margin-inline:auto;line-height:1.6;
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{transition:none!important;animation:none!important}
   }
@@ -387,6 +457,71 @@
     <p class="cine-map-note">Il film qui finisce sul nero, non su un'inquadratura aerea reale: la mappa viva (capitolo 07) va costruita sul film e sui dati definitivi, non su questo segnaposto.</p>
   </div>
 </div>
+
+<section class="living-map" id="livingMap">
+  <div class="lm-wrap">
+    <span class="lm-eyebrow">07 &middot; La mappa viva</span>
+    <h2 class="lm-title">Il territorio si legge per livelli, non per pagine.</h2>
+    <p class="lm-sub">Acqua, versanti, protezioni e connessioni non sono voci di menu: sono strati dello stesso territorio. Seleziona un livello per vedere dove interviene Monts &mdash; il resto arretra.</p>
+
+    <div class="lm-layers" id="lmLayers">
+      <button class="lm-layer-btn" type="button" data-layer="acqua">Acqua<span class="n">&middot; 2</span></button>
+      <button class="lm-layer-btn" type="button" data-layer="versanti">Versanti<span class="n">&middot; 2</span></button>
+      <button class="lm-layer-btn" type="button" data-layer="protezioni">Protezioni<span class="n">&middot; 2</span></button>
+      <button class="lm-layer-btn" type="button" data-layer="connessioni">Connessioni<span class="n">&middot; 2</span></button>
+    </div>
+
+    <div class="lm-map-frame" id="lmMapFrame">
+      <svg viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mappa viva placeholder della Carnia, con interventi segnaposto per livello">
+        <path class="lm-commune" d="M60 120 L150 90 L210 140 L190 210 L110 220 L50 180 Z"/>
+        <path class="lm-commune" d="M210 140 L300 100 L360 150 L330 220 L250 230 L190 210 Z"/>
+        <path class="lm-commune" d="M360 150 L440 110 L510 155 L490 225 L400 240 L330 220 Z"/>
+        <path class="lm-commune" d="M510 155 L590 130 L660 175 L630 240 L550 250 L490 225 Z"/>
+        <path class="lm-commune" d="M110 220 L190 210 L250 230 L230 300 L150 310 L90 270 Z"/>
+        <path class="lm-commune" d="M250 230 L330 220 L400 240 L380 310 L300 320 L230 300 Z"/>
+        <path class="lm-commune" d="M400 240 L490 225 L550 250 L530 320 L440 330 L380 310 Z"/>
+        <path class="lm-commune" d="M550 250 L630 240 L700 270 L680 335 L590 345 L530 320 Z"/>
+        <path class="lm-commune" d="M150 310 L230 300 L300 320 L280 385 L200 395 L140 360 Z"/>
+        <path class="lm-commune" d="M300 320 L380 310 L440 330 L420 395 L340 405 L280 385 Z"/>
+        <path class="lm-commune" d="M440 330 L530 320 L590 345 L570 405 L480 415 L420 395 Z"/>
+
+        <g class="lm-marker" data-layer="acqua" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento acqua, dato segnaposto">
+          <circle class="pulse" cx="170" cy="257" r="14"/><circle class="core" cx="170" cy="257" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="acqua" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento acqua, dato segnaposto">
+          <circle class="pulse" cx="217" cy="345" r="14"/><circle class="core" cx="217" cy="345" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="versanti" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento versanti, dato segnaposto">
+          <circle class="pulse" cx="273" cy="175" r="14"/><circle class="core" cx="273" cy="175" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="versanti" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento versanti, dato segnaposto">
+          <circle class="pulse" cx="455" cy="279" r="14"/><circle class="core" cx="455" cy="279" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="protezioni" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento protezioni, dato segnaposto">
+          <circle class="pulse" cx="422" cy="183" r="14"/><circle class="core" cx="422" cy="183" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="protezioni" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento protezioni, dato segnaposto">
+          <circle class="pulse" cx="357" cy="358" r="14"/><circle class="core" cx="357" cy="358" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="connessioni" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento connessioni, dato segnaposto">
+          <circle class="pulse" cx="610" cy="293" r="14"/><circle class="core" cx="610" cy="293" r="5"/>
+        </g>
+        <g class="lm-marker" data-layer="connessioni" data-name="[PROGETTO DA VERIFICARE]" data-place="[COMUNE DA VERIFICARE]" tabindex="0" role="button" aria-label="Intervento connessioni, dato segnaposto">
+          <circle class="pulse" cx="497" cy="370" r="14"/><circle class="core" cx="497" cy="370" r="5"/>
+        </g>
+      </svg>
+
+      <div class="lm-tooltip" id="lmTooltip">
+        <div class="lbl" id="lmTooltipLayer">Livello</div>
+        <div class="name" id="lmTooltipName">[PROGETTO DA VERIFICARE]</div>
+        <div class="place" id="lmTooltipPlace">[COMUNE DA VERIFICARE]</div>
+      </div>
+    </div>
+
+    <p class="lm-count" id="lmCount">Seleziona un livello per esplorare gli interventi.</p>
+    <p class="lm-note">Confini, posizioni e nomi progetto sono segnaposto: la mappa viva reale va costruita sul GeoJSON dei 28 Comuni e sui dati progetto verificati (&sect;8).</p>
+  </div>
+</section>
 
 <script>
 (function(){
@@ -547,5 +682,74 @@
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && filmLightbox.classList.contains('open')) { closeFilm(); }
   });
+
+  var livingMap = document.getElementById('livingMap');
+  var lmLayers = document.getElementById('lmLayers');
+  var lmMapFrame = document.getElementById('lmMapFrame');
+  var lmTooltip = document.getElementById('lmTooltip');
+  var lmTooltipLayer = document.getElementById('lmTooltipLayer');
+  var lmTooltipName = document.getElementById('lmTooltipName');
+  var lmTooltipPlace = document.getElementById('lmTooltipPlace');
+  var lmCount = document.getElementById('lmCount');
+  var lmMarkers = lmMapFrame.querySelectorAll('.lm-marker');
+  var lmLayerBtns = lmLayers.querySelectorAll('.lm-layer-btn');
+  var activeLayer = null;
+  var activeMarker = null;
+
+  var layerLabels = {
+    acqua: 'Acqua', versanti: 'Versanti', protezioni: 'Protezioni', connessioni: 'Connessioni'
+  };
+
+  function setLayer(layer){
+    activeLayer = (activeLayer === layer) ? null : layer;
+    lmLayerBtns.forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.layer === activeLayer);
+    });
+    livingMap.classList.toggle('filtered', !!activeLayer);
+    lmMarkers.forEach(function(m){
+      m.classList.toggle('match', activeLayer && m.dataset.layer === activeLayer);
+    });
+    hideTooltip();
+    if (activeLayer) {
+      var n = lmMapFrame.querySelectorAll('.lm-marker[data-layer="' + activeLayer + '"]').length;
+      lmCount.textContent = n + ' interventi nel livello ' + layerLabels[activeLayer] + ' (dati segnaposto).';
+    } else {
+      lmCount.textContent = 'Seleziona un livello per esplorare gli interventi.';
+    }
+  }
+  lmLayerBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){ setLayer(btn.dataset.layer); });
+  });
+
+  function showTooltip(marker){
+    var frameRect = lmMapFrame.getBoundingClientRect();
+    var coreRect = marker.querySelector('circle.core').getBoundingClientRect();
+    var x = coreRect.left + coreRect.width / 2 - frameRect.left;
+    var y = coreRect.top - frameRect.top;
+    lmTooltip.style.left = x + 'px';
+    lmTooltip.style.top = y + 'px';
+    lmTooltipLayer.textContent = layerLabels[marker.dataset.layer];
+    lmTooltipName.textContent = marker.dataset.name;
+    lmTooltipPlace.textContent = marker.dataset.place;
+    lmTooltip.classList.add('show');
+    activeMarker = marker;
+  }
+  function hideTooltip(){
+    lmTooltip.classList.remove('show');
+    activeMarker = null;
+  }
+  lmMarkers.forEach(function(m){
+    m.addEventListener('click', function(e){
+      e.stopPropagation();
+      if (activeMarker === m) { hideTooltip(); } else { showTooltip(m); }
+    });
+    m.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); m.dispatchEvent(new Event('click', {bubbles:true})); }
+    });
+  });
+  document.addEventListener('click', function(e){
+    if (!lmMapFrame.contains(e.target)) { hideTooltip(); }
+  });
+  window.addEventListener('resize', hideTooltip);
 })();
 </script>
